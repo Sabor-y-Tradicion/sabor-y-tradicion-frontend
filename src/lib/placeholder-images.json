@@ -1,0 +1,280 @@
+{
+  "placeholderImages": [
+    {
+      "id": "landing-hero",
+      "description": "A wide shot of a beautifully set restaurant table, warm ambiance.",
+      "imageUrl": "https://images.unsplash.com/photo-1765021098429-0f556e068d8b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxyZXN0YXVyYW50JTIwYW1iaWFuY2V8ZW58MHx8fHwxNzY2NjA0Mzk3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "restaurant ambiance"
+    },
+    {
+      "id": "culinary-highlight-1",
+      "description": "A close-up of a colorful, gourmet salad.",
+      "imageUrl": "https://images.unsplash.com/photo-1659275797600-9f52f4e03b06?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxnb3VybWV0JTIwc2FsYWR8ZW58MHx8fHwxNzY2NjA2MDQ0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gourmet salad"
+    },
+    {
+      "id": "culinary-highlight-2",
+      "description": "A rustic loaf of bread on a wooden board.",
+      "imageUrl": "https://images.unsplash.com/photo-1649675602947-81a41c1ba4af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxhcnRpc2FuJTIwYnJlYWR8ZW58MHx8fHwxNzY2NTg3MzU4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "artisan bread"
+    },
+    {
+      "id": "culinary-highlight-3",
+      "description": "A chef garnishing a plate.",
+      "imageUrl": "https://images.unsplash.com/photo-1675092975393-7b7cd0c618fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjaGVmJTIwcGxhdGluZ3xlbnwwfHx8fDE3NjY2MDYwNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chef plating"
+    },
+    {
+      "id": "about-restaurant",
+      "description": "Interior view of the restaurant, showing tables and decor.",
+      "imageUrl": "https://images.unsplash.com/photo-1729394405518-eaf2a0203aa7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxyZXN0YXVyYW50JTIwaW50ZXJpb3J8ZW58MHx8fHwxNzY2NTkzMDk1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "restaurant interior"
+    },
+    {
+      "id": "about-team",
+      "description": "A group photo of the restaurant's smiling staff.",
+      "imageUrl": "https://images.unsplash.com/photo-1722181879579-b97695e360c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxyZXN0YXVyYW50JTIwdGVhbXxlbnwwfHx8fDE3NjY2MDYwNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "restaurant team"
+    },
+    {
+      "id": "menu-appetizer-1",
+      "description": "Bruschetta with tomatoes and basil.",
+      "imageUrl": "https://images.unsplash.com/photo-1498962960328-5cefb5d8d446?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxicnVzY2hldHRhJTIwdG9tYXRvfGVufDB8fHx8MTc2NjU0NDM5OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "bruschetta tomato"
+    },
+    {
+      "id": "menu-appetizer-2",
+      "description": "Calamari rings deep fried.",
+      "imageUrl": "https://images.unsplash.com/photo-1734771219838-61863137b117?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmcmllZCUyMGNhbGFtYXJpfGVufDB8fHx8MTc2NjU3NDgwMnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fried calamari"
+    },
+    {
+      "id": "menu-appetizer-3",
+      "description": "A varied cheese board.",
+      "imageUrl": "https://images.unsplash.com/photo-1626628577177-7c9a3a907d5a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjaGVlc2UlMjBib2FyZHxlbnwwfHx8fDE3NjY2MDgwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cheese board"
+    },
+    {
+      "id": "menu-appetizer-4",
+      "description": "Ham croquettes.",
+      "imageUrl": "https://images.unsplash.com/photo-1649019088157-5b9dd71a4958?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxoYW0lMjBjcm9xdWV0dGVzfGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ham croquettes"
+    },
+    {
+      "id": "menu-appetizer-5",
+      "description": "Cold gazpacho soup.",
+      "imageUrl": "https://images.unsplash.com/photo-1682313028373-e224fd254060?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Z2F6cGFjaG8lMjBzb3VwfGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "gazpacho soup"
+    },
+    {
+      "id": "menu-appetizer-6",
+      "description": "Garlic prawns.",
+      "imageUrl": "https://images.unsplash.com/photo-1669385184435-233842a157f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxnYXJsaWMlMjBwcmF3bnN8ZW58MHx8fHwxNzY2NjA4MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "garlic prawns"
+    },
+    {
+      "id": "menu-appetizer-7",
+      "description": "Spanish omelette.",
+      "imageUrl": "https://images.unsplash.com/photo-1598683387379-5bc77d0bc4c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxzcGFuaXNoJTIwb21lbGV0dGV8ZW58MHx8fHwxNzY2NjA4MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "spanish omelette"
+    },
+    {
+      "id": "menu-appetizer-8",
+      "description": "Octopus with paprika.",
+      "imageUrl": "https://images.unsplash.com/photo-1609149401319-989d289bddb9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxvY3RvcHVzJTIwcGFwcmlrYXxlbnwwfHx8fDE3NjY2MDgwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "octopus paprika"
+    },
+    {
+      "id": "menu-appetizer-9",
+      "description": "Iberian ham.",
+      "imageUrl": "https://images.unsplash.com/photo-1732565432358-a8c95bc24ea3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxpYmVyaWFuJTIwaGFtfGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "iberian ham"
+    },
+    {
+      "id": "menu-appetizer-10",
+      "description": "Potatoes with spicy sauce.",
+      "imageUrl": "https://images.unsplash.com/photo-1615830783066-26a99bc9d959?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxwYXRhdGFzJTIwYnJhdmFzfGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "patatas bravas"
+    },
+    {
+      "id": "menu-main-1",
+      "description": "A juicy grilled steak with vegetables.",
+      "imageUrl": "https://images.unsplash.com/photo-1558030006-450675393462?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxncmlsbGVkJTIwc3RlYWt8ZW58MHx8fHwxNzY2NTI4Mzc2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "grilled steak"
+    },
+    {
+      "id": "menu-main-2",
+      "description": "A plate of spaghetti carbonara.",
+      "imageUrl": "https://images.unsplash.com/photo-1574969903809-3f7a1668ceb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzcGFnaGV0dGklMjBjYXJib25hcmF8ZW58MHx8fHwxNzY2NTA3MjQ4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "spaghetti carbonara"
+    },
+    {
+      "id": "menu-main-3",
+      "description": "Salmon fillet with asparagus.",
+      "imageUrl": "https://images.unsplash.com/photo-1499125562588-29fb8a56b5d5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzYWxtb24lMjBmaWxsZXR8ZW58MHx8fHwxNzY2NTEyNzI1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "salmon fillet"
+    },
+    {
+      "id": "menu-main-4",
+      "description": "Seafood paella.",
+      "imageUrl": "https://images.unsplash.com/photo-1623961990059-28356e226a77?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzZWFmb29kJTIwcGFlbGxhfGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "seafood paella"
+    },
+    {
+      "id": "menu-main-5",
+      "description": "Mushroom risotto.",
+      "imageUrl": "https://images.unsplash.com/photo-1706345624391-6885ae0c4aad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtdXNocm9vbSUyMHJpc290dG98ZW58MHx8fHwxNzY2NjA4MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mushroom risotto"
+    },
+    {
+      "id": "menu-main-6",
+      "description": "Lamb chops.",
+      "imageUrl": "https://images.unsplash.com/photo-1659275799237-cbc057d97e7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxsYW1iJTIwY2hvcHN8ZW58MHx8fHwxNzY2NTU2ODM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lamb chops"
+    },
+    {
+      "id": "menu-main-7",
+      "description": "Vegetable lasagna.",
+      "imageUrl": "https://images.unsplash.com/photo-1739790397103-f1736c44235a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHx2ZWdldGFibGUlMjBsYXNhZ25hfGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vegetable lasagna"
+    },
+    {
+      "id": "menu-main-8",
+      "description": "Grilled codfish.",
+      "imageUrl": "https://images.unsplash.com/photo-1612426357506-8b66a851fbe6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxncmlsbGVkJTIwY29kZmlzaHxlbnwwfHx8fDE3NjY2MDgwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "grilled codfish"
+    },
+    {
+      "id": "menu-main-9",
+      "description": "Iberian pork.",
+      "imageUrl": "https://images.unsplash.com/photo-1732565432358-a8c95bc24ea3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxpYmVyaWFuJTIwcG9ya3xlbnwwfHx8fDE3NjY2MDgwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "iberian pork"
+    },
+    {
+      "id": "menu-main-10",
+      "description": "Chicken in sauce.",
+      "imageUrl": "https://images.unsplash.com/photo-1624384463428-d11589d2a297?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2hpY2tlbiUyMHNhdWNlfGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chicken sauce"
+    },
+    {
+      "id": "menu-dessert-1",
+      "description": "A slice of rich chocolate cake.",
+      "imageUrl": "https://images.unsplash.com/photo-1540337706094-da10342c93d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBjYWtlfGVufDB8fHx8MTc2NjU1ODYwOHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chocolate cake"
+    },
+    {
+      "id": "menu-dessert-2",
+      "description": "Tiramisu in a glass.",
+      "imageUrl": "https://images.unsplash.com/photo-1714385905983-6f8e06fffae1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0aXJhbWlzdSUyMGRlc3NlcnR8ZW58MHx8fHwxNzY2NDkxMDcyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tiramisu dessert"
+    },
+    {
+      "id": "menu-dessert-3",
+      "description": "Cheesecake with berries.",
+      "imageUrl": "https://images.unsplash.com/photo-1687030047993-b4f28b46b516?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2hlZXNlY2FrZSUyMGJlcnJpZXN8ZW58MHx8fHwxNzY2NjA4MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cheesecake berries"
+    },
+    {
+      "id": "menu-dessert-4",
+      "description": "Apple pie with ice cream.",
+      "imageUrl": "https://images.unsplash.com/photo-1628815871005-a860e5905628?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXBwbGUlMjBwaWV8ZW58MHx8fHwxNzY2NTkwMDAzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "apple pie"
+    },
+    {
+      "id": "menu-dessert-5",
+      "description": "Catalan cream.",
+      "imageUrl": "https://images.unsplash.com/photo-1760308798378-d1a2e29ce54f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8Y2F0YWxhbiUyMGNyZWFtfGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "catalan cream"
+    },
+    {
+      "id": "menu-dessert-6",
+      "description": "Chocolate coulant.",
+      "imageUrl": "https://images.unsplash.com/photo-1551578657-a7e74acb0135?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaG9jb2xhdGUlMjBjb3VsYW50fGVufDB8fHx8MTc2NjYwODA1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chocolate coulant"
+    },
+    {
+      "id": "menu-dessert-7",
+      "description": "Fruit salad.",
+      "imageUrl": "https://images.unsplash.com/photo-1658431618300-a69b07fb5782?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmcnVpdCUyMHNhbGFkfGVufDB8fHx8MTc2NjU1OTIwNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fruit salad"
+    },
+    {
+      "id": "menu-dessert-8",
+      "description": "Lemon sorbet.",
+      "imageUrl": "https://images.unsplash.com/photo-1605316826323-cf818ba72e6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxsZW1vbiUyMHNvcmJldHxlbnwwfHx8fDE3NjY2MDgwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lemon sorbet"
+    },
+    {
+      "id": "menu-dessert-9",
+      "description": "Rice pudding.",
+      "imageUrl": "https://images.unsplash.com/photo-1649777476920-0eef34169cdb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxyaWNlJTIwcHVkZGluZ3xlbnwwfHx8fDE3NjY2MDgwNTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "rice pudding"
+    },
+    {
+      "id": "menu-dessert-10",
+      "description": "Panna cotta.",
+      "imageUrl": "https://images.unsplash.com/photo-1613505411792-208b15f862b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxwYW5uYSUyMGNvdHRhfGVufDB8fHx8MTc2NjU1NjcxNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "panna cotta"
+    },
+    {
+      "id": "menu-drink-1",
+      "description": "A glass of red wine.",
+      "imageUrl": "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZWQlMjB3aW5lfGVufDB8fHx8MTc2NjYwMzk1NHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "red wine"
+    },
+    {
+      "id": "menu-drink-2",
+      "description": "A refreshing mojito cocktail.",
+      "imageUrl": "https://images.unsplash.com/photo-1655933732881-d2f681ce88f2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtb2ppdG8lMjBjb2NrdGFpbHxlbnwwfHx8fDE3NjY1ODY0NzF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mojito cocktail"
+    },
+    {
+      "id": "menu-drink-3",
+      "description": "Craft beer.",
+      "imageUrl": "https://images.unsplash.com/photo-1649798510566-4a52cd4fe463?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjcmFmdCUyMGJlZXJ8ZW58MHx8fHwxNzY2NTE3NzgxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "craft beer"
+    },
+    {
+      "id": "menu-drink-4",
+      "description": "Natural orange juice.",
+      "imageUrl": "https://images.unsplash.com/photo-1600271886742-f049cd451bba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxvcmFuZ2UlMjBqdWljZXxlbnwwfHx8fDE3NjY1MDk3MDJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "orange juice"
+    },
+    {
+      "id": "menu-drink-5",
+      "description": "Mineral water.",
+      "imageUrl": "https://images.unsplash.com/photo-1595994195534-d5219f02f99f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtaW5lcmFsJTIwd2F0ZXJ8ZW58MHx8fHwxNzY2NjA4MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mineral water"
+    },
+    {
+      "id": "menu-drink-6",
+      "description": "Espresso coffee.",
+      "imageUrl": "https://images.unsplash.com/photo-1623086923609-594e98bb0bff?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxlc3ByZXNzbyUyMGNvZmZlZXxlbnwwfHx8fDE3NjY1MjU4NTN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "espresso coffee"
+    },
+    {
+      "id": "menu-drink-7",
+      "description": "Herbal tea.",
+      "imageUrl": "https://images.unsplash.com/photo-1648455321715-e8ed86188c0e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxoZXJiYWwlMjB0ZWF8ZW58MHx8fHwxNzY2NjA4MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "herbal tea"
+    },
+    {
+      "id": "menu-drink-8",
+      "description": "Glass of white wine.",
+      "imageUrl": "https://images.unsplash.com/photo-1558346489-19413928158b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHx3aGl0ZSUyMHdpbmV8ZW58MHx8fHwxNzY2NjA4MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "white wine"
+    },
+    {
+      "id": "menu-drink-9",
+      "description": "Classic vermouth.",
+      "imageUrl": "https://images.unsplash.com/photo-1643068476805-0385f7d11b6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx2ZXJtb3V0aCUyMGNsYXNzaWN8ZW58MHx8fHwxNzY2NjA4MDU5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "vermouth classic"
+    },
+    {
+      "id": "menu-drink-10",
+      "description": "Lemonade.",
+      "imageUrl": "https://images.unsplash.com/photo-1665582295782-eecc2e25b74f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxsZW1vbmFkZSUyMGRyaW5rfGVufDB8fHx8MTc2NjU0NjAwOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "lemonade drink"
+    }
+  ]
+}
