@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { Header } from '@/components/layout/header';
-import { Footer } from '@/components/layout/footer';
+import { LayoutWrapper } from '@/components/layout/layout-wrapper';
+import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
     title: 'Sabor y Tradición - Restaurante Chachapoyana',
@@ -32,9 +32,8 @@ export default function RootLayout({
             />
         </head>
         <body className="font-body antialiased">
-        <Header />
-        <main className="min-h-screen flex-grow">{children}</main>
-        <Footer />
+        <LayoutWrapper>{children}</LayoutWrapper>
+        <Toaster />
         </body>
         </html>
     );
