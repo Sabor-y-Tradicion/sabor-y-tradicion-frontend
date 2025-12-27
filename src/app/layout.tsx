@@ -24,6 +24,26 @@ export default function RootLayout({
     return (
         <html lang="es">
         <head>
+            <meta name="ethereum-provider-detection" content="disabled" />
+            <script
+                dangerouslySetInnerHTML={{
+                    __html: `
+                        // Prevenir inyección de MetaMask y otras wallets Web3
+                        if (typeof window !== 'undefined') {
+                            Object.defineProperty(window, 'ethereum', {
+                                value: undefined,
+                                writable: false,
+                                configurable: false
+                            });
+                            Object.defineProperty(window, 'web3', {
+                                value: undefined,
+                                writable: false,
+                                configurable: false
+                            });
+                        }
+                    `,
+                }}
+            />
             <link rel="preconnect" href="https://fonts.googleapis.com" />
             <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
             <link

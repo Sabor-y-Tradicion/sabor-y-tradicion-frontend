@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/auth-context";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { AdminSidebar } from "../components/sidebar";
 import { AdminHeader } from "../components/admin-header";
@@ -9,14 +9,19 @@ import { AdminHeader } from "../components/admin-header";
 export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+
+  // Permitir acceso a la página de login sin verificación
+  const isLoginPage = pathname === "/admin/login";
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (!isLoading && !isAuthenticated && !isLoginPage) {
       router.push("/admin/login");
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading, isLoginPage, router]);
 
-  if (isLoading) {
+  // Mostrar loading solo si no es la página de login
+  if (isLoading && !isLoginPage) {
     return (
       <div className="flex h-screen items-center justify-center">
         <div className="text-center">
@@ -27,10 +32,17 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
     );
   }
 
+  // Si es la página de login, mostrar sin layout
+  if (isLoginPage) {
+    return <>{children}</>;
+  }
+
+  // Si no está autenticado, no mostrar nada (esperando redirección)
   if (!isAuthenticated) {
     return null;
   }
 
+  // Layout completo del admin para páginas protegidas
   return (
     <div className="flex h-screen overflow-hidden">
       <AdminSidebar />

@@ -106,11 +106,6 @@ export default function AdminLoginPage() {
             >
               {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
             </Button>
-            <div className="mt-4 rounded-md bg-blue-50 p-3 text-sm text-blue-900">
-              <p className="font-semibold">Demo:</p>
-              <p>Email: admin@test.com</p>
-              <p>Contraseña: admin123</p>
-            </div>
           </form>
         </CardContent>
       </Card>
