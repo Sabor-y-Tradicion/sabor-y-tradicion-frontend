@@ -14,7 +14,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Edit, Trash2, Eye } from "lucide-react";
 import Image from "next/image";
-import type { Dish } from "@/types/menu";
+import type { Dish } from "@/lib/api/types";
+import { getDishImage } from "@/lib/constants";
 
 interface MenuTableProps {
   dishes: Dish[];
@@ -45,8 +46,8 @@ export function MenuTable({ dishes, onEdit, onDelete, onView, isLoading }: MenuT
 
   if (isLoading) {
     return (
-      <div className="rounded-lg border bg-white">
-        <div className="p-8 text-center text-muted-foreground">
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="p-8 text-center text-muted-foreground dark:text-gray-400">
           Cargando platos...
         </div>
       </div>
@@ -55,36 +56,36 @@ export function MenuTable({ dishes, onEdit, onDelete, onView, isLoading }: MenuT
 
   if (dishes.length === 0) {
     return (
-      <div className="rounded-lg border bg-white">
-        <div className="p-8 text-center">
-          <p className="text-muted-foreground">No se encontraron platos</p>
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="p-8 text-center text-muted-foreground dark:text-gray-400">
+          No hay platos disponibles
         </div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg border bg-white">
+    <div className="rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
       <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-12">
+        <TableHeader className="bg-gray-50 dark:bg-gray-700">
+          <TableRow className="dark:border-gray-600">
+            <TableHead className="w-[50px] dark:text-gray-300">
               <Checkbox
                 checked={selectedDishes.length === dishes.length}
                 onCheckedChange={handleSelectAll}
               />
             </TableHead>
-            <TableHead className="w-20">Imagen</TableHead>
-            <TableHead>Nombre</TableHead>
-            <TableHead>Categoría</TableHead>
-            <TableHead className="text-right">Precio</TableHead>
-            <TableHead className="text-center">Estado</TableHead>
-            <TableHead className="text-right">Acciones</TableHead>
+            <TableHead className="dark:text-gray-300">Imagen</TableHead>
+            <TableHead className="dark:text-gray-300">Nombre</TableHead>
+            <TableHead className="dark:text-gray-300">Categoría</TableHead>
+            <TableHead className="text-right dark:text-gray-300">Precio</TableHead>
+            <TableHead className="text-center dark:text-gray-300">Estado</TableHead>
+            <TableHead className="text-right dark:text-gray-300">Acciones</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="dark:bg-gray-800">
           {dishes.map((dish) => (
-            <TableRow key={dish.id}>
+            <TableRow key={dish.id} className="dark:border-gray-700">
               <TableCell>
                 <Checkbox
                   checked={selectedDishes.includes(dish.id)}
@@ -96,69 +97,53 @@ export function MenuTable({ dishes, onEdit, onDelete, onView, isLoading }: MenuT
               <TableCell>
                 <div className="relative h-12 w-12 overflow-hidden rounded-md">
                   <Image
-                    src={dish.image}
+                    src={getDishImage(dish.image || "")}
                     alt={dish.name}
                     fill
                     className="object-cover"
-                    sizes="48px"
                   />
                 </div>
               </TableCell>
-              <TableCell>
-                <div className="flex flex-col">
-                  <span className="font-medium">{dish.name}</span>
-                  {dish.isPopular && (
-                    <Badge variant="secondary" className="mt-1 w-fit text-xs">
-                      Popular
-                    </Badge>
-                  )}
-                  {dish.isNew && (
-                    <Badge className="mt-1 w-fit bg-green-600 text-xs">
-                      Nuevo
-                    </Badge>
-                  )}
-                </div>
+              <TableCell className="font-medium dark:text-white">{dish.name}</TableCell>
+              <TableCell className="dark:text-gray-300">
+                {typeof dish.category === 'string' ? dish.category : dish.category?.name || 'Sin categoría'}
               </TableCell>
-              <TableCell>
-                <Badge variant="outline">{dish.category}</Badge>
-              </TableCell>
-              <TableCell className="text-right font-semibold">
-                S/ {dish.price.toFixed(2)}
+              <TableCell className="text-right font-semibold dark:text-white">
+                S/ {Number(dish.price).toFixed(2)}
               </TableCell>
               <TableCell className="text-center">
                 <Badge
-                  variant={dish.isAvailable ? "default" : "destructive"}
-                  className={dish.isAvailable ? "bg-green-600" : ""}
+                  variant={dish.isActive ? "default" : "secondary"}
+                  className={dish.isActive ? "bg-green-600" : ""}
                 >
-                  {dish.isAvailable ? "Disponible" : "No disponible"}
+                  {dish.isActive ? "Disponible" : "No disponible"}
                 </Badge>
               </TableCell>
-              <TableCell>
+              <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
                   {onView && (
                     <Button
-                      size="sm"
                       variant="ghost"
+                      size="sm"
                       onClick={() => onView(dish)}
-                      title="Ver detalles"
+                      className="dark:text-gray-300 dark:hover:bg-gray-700"
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
                   )}
                   <Button
-                    size="sm"
                     variant="ghost"
+                    size="sm"
                     onClick={() => onEdit(dish)}
-                    title="Editar"
+                    className="dark:text-gray-300 dark:hover:bg-gray-700"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
                   <Button
-                    size="sm"
                     variant="ghost"
+                    size="sm"
                     onClick={() => onDelete(dish)}
-                    title="Eliminar"
-                    className="text-red-600 hover:text-red-700"
+                    className="text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

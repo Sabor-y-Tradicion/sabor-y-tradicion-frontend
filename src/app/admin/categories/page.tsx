@@ -8,24 +8,22 @@ import {AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, A
 import { Plus } from "lucide-react";
 import { CategoriesTable } from "./components/categories-table";
 import { CategoryFormDialog } from "./components/category-form-dialog";
-import { useToast } from "@/hooks/use-toast";
-import {
-  getAllCategoriesWithCount,
-  createCategory,
-  updateCategory,
-  deleteCategory,
-  toggleCategoryStatus,
-} from "@/services/category-service";
-import type { Category } from "@/types/menu";
+import { useCategories } from "@/hooks/use-categories";
+import type { Category } from "@/lib/api/types";
 import type { CategoryFormValues } from "@/lib/validations/category-validation";
 
 export default function CategoriesPage() {
   const { isAuthenticated, isLoading: authLoading } = useAuth();
   const router = useRouter();
-  const { toast } = useToast();
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const {
+    categories,
+    isLoading,
+    createCategory,
+    updateCategory,
+    deleteCategory
+  } = useCategories();
+
   const [formDialogOpen, setFormDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
@@ -38,27 +36,6 @@ export default function CategoriesPage() {
     }
   }, [isAuthenticated, authLoading, router]);
 
-  useEffect(() => {
-    const loadCategories = async () => {
-      try {
-        setIsLoading(true);
-        const data = await getAllCategoriesWithCount();
-        setCategories(data);
-      } catch {
-        toast({
-          variant: "destructive",
-          title: "Error",
-          description: "No se pudieron cargar las categorias",
-        });
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    if (isAuthenticated) {
-      loadCategories();
-    }
-  }, [isAuthenticated, toast]);
 
   const handleCreate = () => {
     setSelectedCategory(null);
@@ -77,22 +54,9 @@ export default function CategoriesPage() {
 
   const handleToggleStatus = async (category: Category) => {
     try {
-      const updated = await toggleCategoryStatus(category.id);
-      if (updated) {
-        setCategories(
-          categories.map((c) => (c.id === category.id ? updated : c))
-        );
-        toast({
-          title: updated.isActive ? "Categoria activada" : "Categoria desactivada",
-          description: `"${category.name}" ha sido ${updated.isActive ? "activada" : "desactivada"}`,
-        });
-      }
+      await updateCategory(category.id, { isActive: !category.isActive });
     } catch {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "No se pudo cambiar el estado",
-      });
+      // El error ya se maneja en el hook
     }
   };
 
@@ -101,36 +65,18 @@ export default function CategoriesPage() {
     try {
       if (selectedCategory) {
         // Editar
-        const updated = await updateCategory(selectedCategory.id, data);
-        if (updated) {
-          const refreshed = await getAllCategoriesWithCount();
-          setCategories(refreshed);
-          toast({
-            title: "Categoria actualizada",
-            description: `"${data.name}" ha sido actualizada`,
-          });
-        }
+        await updateCategory(selectedCategory.id, data);
       } else {
         // Crear
         await createCategory({
           ...data,
           description: data.description || '',
         });
-        const refreshed = await getAllCategoriesWithCount();
-        setCategories(refreshed);
-        toast({
-          title: "Categoria creada",
-          description: `"${data.name}" ha sido agregada`,
-        });
       }
       setFormDialogOpen(false);
       setSelectedCategory(null);
-    } catch (error: unknown) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error instanceof Error ? error.message : "No se pudo guardar la categoria",
-      });
+    } catch {
+      // El error ya se maneja en el hook
     } finally {
       setIsSubmitting(false);
     }
@@ -142,19 +88,10 @@ export default function CategoriesPage() {
     setIsDeleting(true);
     try {
       await deleteCategory(selectedCategory.id);
-      setCategories(categories.filter((c) => c.id !== selectedCategory.id));
-      toast({
-        title: "Categoria eliminada",
-        description: `"${selectedCategory.name}" ha sido eliminada`,
-      });
       setDeleteDialogOpen(false);
       setSelectedCategory(null);
-    } catch (error: unknown) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: error instanceof Error ? error.message : "No se pudo eliminar la categoria",
-      });
+    } catch {
+      // El error ya se maneja en el hook
     } finally {
       setIsDeleting(false);
     }
@@ -163,13 +100,10 @@ export default function CategoriesPage() {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">
-            Gestion de Categorias
-          </h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Gestion de Categorias</h1>
+          <p className="text-muted-foreground dark:text-gray-400">
             Administra las categorias del menu
           </p>
         </div>
@@ -181,36 +115,34 @@ export default function CategoriesPage() {
 
       {/* Stats */}
       <div className="grid gap-4 md:grid-cols-3">
-        <div className="rounded-lg border bg-white p-4">
-          <p className="text-sm font-medium text-muted-foreground">
-            Total de Categorias
-          </p>
-          <p className="text-2xl font-bold">{categories.length}</p>
+        <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+          <p className="text-sm font-medium text-muted-foreground dark:text-gray-400">Total de Categorias</p>
+          <p className="text-2xl font-bold dark:text-white">{categories.length}</p>
         </div>
-        <div className="rounded-lg border bg-white p-4">
-          <p className="text-sm font-medium text-muted-foreground">Activas</p>
-          <p className="text-2xl font-bold text-green-600">
+        <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+          <p className="text-sm font-medium text-muted-foreground dark:text-gray-400">Activas</p>
+          <p className="text-2xl font-bold text-green-600 dark:text-green-400">
             {categories.filter((c) => c.isActive).length}
           </p>
         </div>
-        <div className="rounded-lg border bg-white p-4">
-          <p className="text-sm font-medium text-muted-foreground">
-            Con Platos
-          </p>
-          <p className="text-2xl font-bold text-orange-600">
+        <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-4">
+          <p className="text-sm font-medium text-muted-foreground dark:text-gray-400">Con Platos</p>
+          <p className="text-2xl font-bold dark:text-white">
             {categories.filter((c) => c.dishCount && c.dishCount > 0).length}
           </p>
         </div>
       </div>
 
       {/* Tabla */}
-      <CategoriesTable
-        categories={categories}
-        onEdit={handleEdit}
-        onDelete={handleDelete}
-        onToggleStatus={handleToggleStatus}
-        isLoading={isLoading}
-      />
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <CategoriesTable
+          categories={categories}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+          onToggleStatus={handleToggleStatus}
+          isLoading={isLoading}
+        />
+      </div>
 
       {/* Modal de formulario */}
       <CategoryFormDialog
@@ -267,4 +199,3 @@ export default function CategoriesPage() {
     </div>
   );
 }
-

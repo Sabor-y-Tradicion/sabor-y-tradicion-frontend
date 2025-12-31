@@ -1,4 +1,3 @@
-import { menuData } from './menu-data';
 import MenuClientPage from './components/menu-client-page';
 
 export default function MenuPage() {
@@ -11,7 +10,7 @@ export default function MenuPage() {
                         Descubre nuestra selección de platos tradicionales chachapoyanos y opciones a la carta, preparados con ingredientes frescos de Amazonas.
                     </p>
                 </header>
-                <MenuClientPage menuItems={menuData} />
+                <MenuClientPage />
             </div>
         </div>
     );

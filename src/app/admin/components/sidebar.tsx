@@ -73,12 +73,12 @@ export function AdminSidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r bg-white transition-transform duration-300 md:relative md:translate-x-0",
+          "fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-transform duration-300 md:relative md:translate-x-0",
           isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {/* Logo */}
-        <div className="flex h-16 items-center justify-between border-b px-6">
+        <div className="flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6">
           <div className="flex items-center gap-2">
             <Image
               src="/images/logo/logo.png"
@@ -87,16 +87,16 @@ export function AdminSidebar() {
               height={40}
               className="object-contain"
             />
-            <span className="text-lg font-bold text-orange-600">
+            <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
               Admin Panel
             </span>
           </div>
         </div>
 
         {/* Botón para ir a la página principal */}
-        <div className="border-b px-4 py-3">
+        <div className="border-b border-gray-200 dark:border-gray-700 px-4 py-3">
           <Link href="/" target="_blank">
-            <Button variant="outline" className="w-full gap-2 text-sm">
+            <Button variant="outline" className="w-full gap-2 text-sm dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-800">
               <Home className="h-4 w-4" />
               Ver Sitio Web
             </Button>
@@ -104,15 +104,15 @@ export function AdminSidebar() {
         </div>
 
         {/* User info */}
-        <div className="border-b p-4">
+        <div className="border-b border-gray-200 dark:border-gray-700 p-4">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 text-orange-600 font-semibold">
-              {user?.name.charAt(0).toUpperCase()}
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 font-semibold">
+              {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
             </div>
             <div className="flex-1 overflow-hidden">
-              <p className="truncate text-sm font-medium">{user?.name}</p>
-              <p className="truncate text-xs text-muted-foreground">
-                {user?.email}
+              <p className="truncate text-sm font-medium text-gray-900 dark:text-white">{user?.name || 'Usuario'}</p>
+              <p className="truncate text-xs text-muted-foreground dark:text-gray-400">
+                {user?.email || ''}
               </p>
             </div>
           </div>
@@ -130,8 +130,8 @@ export function AdminSidebar() {
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                   isActive
-                    ? "bg-orange-100 text-orange-600"
-                    : "text-gray-700 hover:bg-gray-100"
+                    ? "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                 )}
               >
                 <item.icon className="h-5 w-5" />
@@ -142,10 +142,10 @@ export function AdminSidebar() {
         </nav>
 
         {/* Logout button */}
-        <div className="border-t p-4">
+        <div className="border-t border-gray-200 dark:border-gray-700 p-4">
           <Button
             variant="ghost"
-            className="w-full justify-start gap-3 text-red-600 hover:bg-red-50 hover:text-red-700"
+            className="w-full justify-start gap-3 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-700 dark:hover:text-red-300"
             onClick={logout}
           >
             <LogOut className="h-5 w-5" />

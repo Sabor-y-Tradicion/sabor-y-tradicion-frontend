@@ -10,7 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import type { Dish } from "@/types/menu";
+import type { Dish } from "@/lib/api/types";
 
 interface DeleteConfirmDialogProps {
   open: boolean;

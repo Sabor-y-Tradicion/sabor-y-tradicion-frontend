@@ -29,18 +29,19 @@ export const dishSchema = z.object({
 
   image: z
     .string()
-    .url('Debe ser una URL válida')
-    .or(z.string().length(0)),
+    .optional(), // Ya no requiere URL válida, puede ser empty o path de archivo
 
   tags: z
     .array(z.string())
-    .max(5, 'No puedes agregar más de 5 tags'),
+    .max(5, 'No puedes agregar más de 5 tags')
+    .optional(),
 
-  isAvailable: z.boolean(),
+  isActive: z.boolean(),
 
   isPopular: z.boolean().optional(),
 
   isNew: z.boolean().optional(),
+
 
   preparationTime: z
     .number()
@@ -50,11 +51,14 @@ export const dishSchema = z.object({
 
   servings: z
     .number()
-    .min(1, 'Debe servir al menos 1 porción')
-    .max(10, 'No puede exceder 10 porciones')
+    .min(1, 'Debe ser al menos 1 porción')
+    .max(20, 'No puede exceder 20 porciones')
     .optional(),
 
-  allergens: z.array(z.string()).optional(),
+  allergens: z
+    .array(z.string())
+    .max(10, 'No puedes agregar más de 10 alérgenos')
+    .optional(),
 });
 
 export type DishFormValues = z.infer<typeof dishSchema>;

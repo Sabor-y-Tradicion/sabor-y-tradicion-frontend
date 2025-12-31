@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import Image from "next/image";
 
 export default function AdminLoginPage() {
@@ -16,7 +15,6 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const { login, isAuthenticated } = useAuth();
   const router = useRouter();
-  const { toast } = useToast();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -29,27 +27,10 @@ export default function AdminLoginPage() {
     setIsLoading(true);
 
     try {
-      const success = await login(email, password);
-
-      if (success) {
-        toast({
-          title: "¡Bienvenido!",
-          description: "Has iniciado sesión correctamente.",
-        });
-        router.push("/admin");
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Error de autenticación",
-          description: "Credenciales incorrectas. Intenta nuevamente.",
-        });
-      }
+      await login({ email, password });
+      // El toast y la redirección se manejan en el AuthContext
     } catch {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Ocurrió un error al iniciar sesión.",
-      });
+      // Los errores se manejan en el AuthContext
     } finally {
       setIsLoading(false);
     }

@@ -17,7 +17,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-3',
     image: 'https://images.unsplash.com/photo-1611171711912-e3ea7ff8b0d0?w=800',
     tags: ['marino', 'fresco', 'recomendado', 'popular'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 15,
@@ -35,7 +35,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-2',
     image: 'https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=800',
     tags: ['carne', 'tradicional', 'popular'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 20,
@@ -53,7 +53,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-2',
     image: 'https://images.unsplash.com/photo-1603073163908-9fa9d21f8b20?w=800',
     tags: ['pollo', 'cremoso', 'tradicional'],
-    isAvailable: true,
+    isActive: true,
     isPopular: false,
     isNew: false,
     preparationTime: 25,
@@ -71,7 +71,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-3',
     image: 'https://images.unsplash.com/photo-1599921841143-819065a55cc6?w=800',
     tags: ['entrada', 'frío', 'popular'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 15,
@@ -89,7 +89,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-3',
     image: 'https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=800',
     tags: ['marino', 'arroz', 'abundante'],
-    isAvailable: true,
+    isActive: true,
     isPopular: false,
     isNew: true,
     preparationTime: 30,
@@ -107,7 +107,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-3',
     image: 'https://images.unsplash.com/photo-1612392062798-2407b95cb5c8?w=800',
     tags: ['parrilla', 'tradicional', 'picante'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 20,
@@ -125,7 +125,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-2',
     image: 'https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=800',
     tags: ['contundente', 'tradicional', 'carne'],
-    isAvailable: true,
+    isActive: true,
     isPopular: false,
     isNew: false,
     preparationTime: 25,
@@ -143,7 +143,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-2',
     image: 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=800',
     tags: ['picante', 'gratinado', 'tradicional'],
-    isAvailable: false,
+    isActive: false,
     isPopular: false,
     isNew: false,
     preparationTime: 35,
@@ -161,7 +161,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-1',
     image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800',
     tags: ['menú', 'económico', 'completo'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 20,
@@ -179,7 +179,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-1',
     image: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800',
     tags: ['menú', 'económico', 'rápido'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 15,
@@ -197,7 +197,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-4',
     image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=800',
     tags: ['bebida', 'tradicional', 'refrescante'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 2,
@@ -215,7 +215,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-4',
     image: 'https://images.unsplash.com/photo-1581006852262-e4307cf6283a?w=800',
     tags: ['bebida', 'gaseosa', 'popular'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 1,
@@ -233,7 +233,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-4',
     image: 'https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=800',
     tags: ['cóctel', 'tradicional', 'alcohólico'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 5,
@@ -251,7 +251,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-5',
     image: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?w=800',
     tags: ['postre', 'dulce', 'tradicional'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 10,
@@ -269,7 +269,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-5',
     image: 'https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=800',
     tags: ['postre', 'tradicional', 'dulce'],
-    isAvailable: true,
+    isActive: true,
     isPopular: false,
     isNew: false,
     preparationTime: 5,
@@ -287,7 +287,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-5',
     image: 'https://images.unsplash.com/photo-1589739900243-c0b4127711e9?w=800',
     tags: ['postre', 'cremoso', 'tradicional'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 5,
@@ -305,7 +305,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-2',
     image: 'https://images.unsplash.com/photo-1574484284002-952d92456975?w=800',
     tags: ['guiso', 'tradicional', 'norteño'],
-    isAvailable: true,
+    isActive: true,
     isPopular: false,
     isNew: true,
     preparationTime: 40,
@@ -323,7 +323,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-3',
     image: 'https://images.unsplash.com/photo-1615141982883-c7ad0e69fd62?w=800',
     tags: ['frito', 'marino', 'compartir'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: false,
     preparationTime: 25,
@@ -341,7 +341,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-2',
     image: 'https://images.unsplash.com/photo-1563379926898-05f4575a45d8?w=800',
     tags: ['tradicional', 'contundente', 'chinchano'],
-    isAvailable: true,
+    isActive: true,
     isPopular: false,
     isNew: false,
     preparationTime: 35,
@@ -359,7 +359,7 @@ let mockDishes: Dish[] = [
     categoryId: 'cat-3',
     image: 'https://placehold.co/400x300/14b8a6/white?text=Tiradito',
     tags: ['marino', 'fresco', 'nikkei', 'picante'],
-    isAvailable: true,
+    isActive: true,
     isPopular: true,
     isNew: true,
     preparationTime: 10,
@@ -385,8 +385,8 @@ export async function getAllDishes(filters?: MenuFilters): Promise<Dish[]> {
     if (filters.category) {
       filtered = filtered.filter(dish => dish.categoryId === filters.category);
     }
-    if (filters.isAvailable !== undefined) {
-      filtered = filtered.filter(dish => dish.isAvailable === filters.isAvailable);
+    if (filters.isActive !== undefined) {
+      filtered = filtered.filter(dish => dish.isActive === filters.isActive);
     }
     if (filters.isPopular !== undefined) {
       filtered = filtered.filter(dish => dish.isPopular === filters.isPopular);
@@ -399,12 +399,12 @@ export async function getAllDishes(filters?: MenuFilters): Promise<Dish[]> {
       filtered = filtered.filter(dish =>
         dish.name.toLowerCase().includes(searchLower) ||
         dish.description.toLowerCase().includes(searchLower) ||
-        dish.tags.some(tag => tag.toLowerCase().includes(searchLower))
+        (dish.tags && dish.tags.some(tag => tag.toLowerCase().includes(searchLower)))
       );
     }
     if (filters.tags && filters.tags.length > 0) {
       filtered = filtered.filter(dish =>
-        filters.tags!.some(tag => dish.tags.includes(tag))
+        dish.tags && filters.tags!.some(tag => dish.tags!.includes(tag))
       );
     }
   }
@@ -533,7 +533,7 @@ export async function toggleDishAvailability(id: string): Promise<Dish | null> {
   const index = mockDishes.findIndex(dish => dish.id === id);
   if (index === -1) return null;
 
-  mockDishes[index].isAvailable = !mockDishes[index].isAvailable;
+  mockDishes[index].isActive = !mockDishes[index].isActive;
   mockDishes[index].updatedAt = new Date();
 
   return mockDishes[index];
@@ -560,7 +560,9 @@ export async function getAllTags(): Promise<string[]> {
   await delay(100);
   const tags = new Set<string>();
   mockDishes.forEach(dish => {
-    dish.tags.forEach(tag => tags.add(tag));
+    if (dish.tags) {
+      dish.tags.forEach(tag => tags.add(tag));
+    }
   });
   return Array.from(tags).sort();
 }

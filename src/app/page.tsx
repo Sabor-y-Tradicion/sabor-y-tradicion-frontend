@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
@@ -7,12 +10,40 @@ function findImage(id: string) {
     return PlaceHolderImages.find((img) => img.id === id)!;
 }
 
+interface RestaurantInfo {
+  name: string;
+  description: string;
+  address: string;
+  phone: string;
+  email: string;
+}
+
 export default function HomePage() {
     const heroImage = findImage('landing-hero');
     const feature1 = findImage('culinary-highlight-1');
     const feature2 = findImage('culinary-highlight-2');
     const feature3 = findImage('culinary-highlight-3');
     const restaurantImage = findImage('about-restaurant');
+
+    const [restaurantInfo, setRestaurantInfo] = useState<RestaurantInfo>({
+        name: "",
+        description: "",
+        address: "",
+        phone: "",
+        email: "",
+    });
+
+    useEffect(() => {
+        const savedRestaurantInfo = localStorage.getItem("restaurant_info");
+        if (savedRestaurantInfo) {
+            try {
+                const parsed = JSON.parse(savedRestaurantInfo);
+                setRestaurantInfo(parsed);
+            } catch {
+                // Ignore parsing errors
+            }
+        }
+    }, []);
 
     return (
         <div>
@@ -44,10 +75,10 @@ export default function HomePage() {
                 <div className="absolute inset-0 flex items-center justify-center">
                     <div className="container mx-auto px-4 text-center text-white">
                         <h1 className="font-headline text-5xl font-bold md:text-7xl lg:text-8xl animate-in fade-in slide-in-from-bottom-4 duration-1000 drop-shadow-2xl">
-                            Sabor y Tradición
+                            {restaurantInfo.name}
                         </h1>
                         <p className="mt-6 text-xl md:text-2xl lg:text-3xl max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200 leading-relaxed drop-shadow-lg">
-                            Cocina tradicional chachapoyana en el corazón de Amazonas.
+                            {restaurantInfo.description}
                         </p>
                         <div className="mt-10 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
                             <Button asChild size="lg" className="text-lg px-8 py-6 shadow-2xl hover:shadow-primary/50 transition-all hover:scale-110 animate-pulse-subtle">

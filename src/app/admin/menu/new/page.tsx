@@ -4,13 +4,12 @@ import { useAuth } from "@/contexts/auth-context";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { DishForm } from "../components/dish-form";
 import { useToast } from "@/hooks/use-toast";
-import { createDish } from "@/services/menu-service";
-import { getAllCategories } from "@/services/category-service";
-import type { Category } from "@/types/menu";
+import { dishesAPI } from "@/lib/api/dishes";
+import { categoriesAPI } from "@/lib/api/categories";
+import type { Category } from "@/lib/api/types";
 import type { DishFormValues } from "@/lib/validations/dish-validation";
 
 export default function NewDishPage() {
@@ -31,14 +30,15 @@ export default function NewDishPage() {
   useEffect(() => {
     const loadCategories = async () => {
       try {
-        const data = await getAllCategories();
-        setCategories(data);
+        const data = await categoriesAPI.getAll();
+        setCategories(data || []);
       } catch {
         toast({
           variant: "destructive",
           title: "Error",
-          description: "No se pudieron cargar las categorias",
+          description: "No se pudieron cargar las categorías",
         });
+        setCategories([]);
       } finally {
         setIsCategoriesLoading(false);
       }
@@ -52,17 +52,35 @@ export default function NewDishPage() {
   const handleSubmit = async (data: DishFormValues) => {
     setIsLoading(true);
     try {
-      await createDish(data);
+      // Mapear datos del formulario al formato de la API
+      const dishData = {
+        name: data.name,
+        description: data.description,
+        price: data.price,
+        categoryId: data.categoryId,
+        image: data.image === "" ? null : data.image,  // Si está vacío, enviar null
+        isActive: data.isActive,
+        isFeatured: data.isPopular || false,
+        allergens: data.allergens || [],
+        tags: data.tags || [],
+        preparationTime: data.preparationTime,
+        servings: data.servings,
+        order: 0,
+      };
+
+      await dishesAPI.create(dishData);
+
       toast({
         title: "Plato creado",
-        description: `"${data.name}" ha sido agregado al menu`,
+        description: `"${data.name}" ha sido agregado al menú`,
       });
       router.push("/admin/menu");
-    } catch {
+    } catch (error: unknown) {
+      const err = error as { message?: string };
       toast({
         variant: "destructive",
         title: "Error",
-        description: "No se pudo crear el plato",
+        description: err?.message || "No se pudo crear el plato",
       });
     } finally {
       setIsLoading(false);
@@ -88,29 +106,28 @@ export default function NewDishPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center gap-4">
-        <Link href="/admin/menu">
-          <Button variant="ghost" size="icon">
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
-        </Link>
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Agregar Nuevo Plato</h1>
-          <p className="text-muted-foreground">
-            Completa la información del plato para agregarlo al menu
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Agregar Nuevo Plato</h1>
+          <p className="text-muted-foreground dark:text-gray-400">
+            Completa la informacion del plato para agregarlo al menu
           </p>
         </div>
+        <Button variant="ghost" asChild>
+          <Link href="/admin/menu">Volver</Link>
+        </Button>
       </div>
 
-      {/* Formulario */}
-      <DishForm
-        categories={categories}
-        onSubmit={handleSubmit}
-        onCancel={handleCancel}
-        isLoading={isLoading}
-        submitLabel="Crear plato"
-      />
+      {/* Form Card */}
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+        <DishForm
+          categories={categories}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          isLoading={isLoading}
+          submitLabel="Crear plato"
+        />
+      </div>
     </div>
   );
 }
-

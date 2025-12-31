@@ -1,97 +1,224 @@
 "use client";
 
-import { useState } from 'react';
-import type { MenuItem } from '../menu-data';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { categoriesAPI } from '@/lib/api/categories';
+import { dishesAPI } from '@/lib/api/dishes';
+import type { Category, Dish } from '@/lib/api/types';
+import { getDishImage } from '@/lib/constants';
 
-interface MenuClientPageProps {
-  menuItems: MenuItem[];
-}
+export default function MenuClientPage() {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [dishes, setDishes] = useState<Dish[]>([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('all');
+  const [isLoading, setIsLoading] = useState(true);
 
-type Category = 'Menú del Día' | 'Platos Tradicionales' | 'Platos a la Carta' | 'Bebidas' | 'Postres';
+  // Cargar categorías y platos al montar
+  useEffect(() => {
+    loadMenuData();
+  }, []);
 
-const categories: Category[] = ['Menú del Día', 'Platos Tradicionales', 'Platos a la Carta', 'Bebidas', 'Postres'];
+  const loadMenuData = async () => {
+    try {
+      setIsLoading(true);
+      const [categoriesData, dishesResponse] = await Promise.all([
+        categoriesAPI.getAll(),
+        dishesAPI.getAll({ isActive: true }) // Solo platos activos
+      ]);
 
-export default function MenuClientPage({ menuItems }: MenuClientPageProps) {
-  const [selectedCategory, setSelectedCategory] = useState<Category>('Platos Tradicionales');
+      // Filtrar solo categorías activas y asegurar que sea un array
+      const activeCategories = Array.isArray(categoriesData)
+        ? categoriesData.filter(cat => cat.isActive)
+        : [];
+      setCategories(activeCategories);
 
-  const filteredItems = menuItems.filter(item => item.category === selectedCategory);
+      // Obtener platos con manejo robusto de diferentes formatos de respuesta
+      let dishesData: Dish[] = [];
+
+      if (dishesResponse) {
+        // Caso 1: response.data.data (backend con paginación anidada)
+        if ((dishesResponse as any).data && (dishesResponse as any).data.data && Array.isArray((dishesResponse as any).data.data)) {
+          dishesData = (dishesResponse as any).data.data;
+        }
+        // Caso 2: response.data (respuesta paginada normal)
+        else if ((dishesResponse as any).data && Array.isArray((dishesResponse as any).data)) {
+          dishesData = (dishesResponse as any).data;
+        }
+        // Caso 3: response es directamente un array
+        else if (Array.isArray(dishesResponse)) {
+          dishesData = dishesResponse;
+        }
+      }
+
+      console.log('🍽️ Platos cargados en menú público:', dishesData.length);
+
+      // Normalizar price a number
+      const normalizedDishes = dishesData.map(dish => ({
+        ...dish,
+        price: Number(dish.price) || 0
+      }));
+
+      setDishes(normalizedDishes);
+    } catch (error) {
+      console.error('Error al cargar datos del menú:', error);
+      setCategories([]);
+      setDishes([]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Filtrar platos por categoría seleccionada
+  const filteredDishes = !Array.isArray(dishes)
+    ? []
+    : selectedCategoryId === 'all'
+      ? dishes
+      : dishes.filter(dish => dish.categoryId === selectedCategoryId);
+
+  if (isLoading) {
+    return (
+      <div className="mt-16 text-center py-20">
+        <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent"></div>
+        <p className="mt-4 text-muted-foreground">Cargando menú...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-16">
       {/* Pestañas de categorías */}
       <div className="mb-12 flex flex-wrap gap-3 justify-center">
+        <button
+          onClick={() => setSelectedCategoryId('all')}
+          className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+            selectedCategoryId === 'all'
+              ? 'bg-primary text-primary-foreground shadow-lg scale-105'
+              : 'bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:scale-105'
+          }`}
+        >
+          Todos
+        </button>
         {categories.map((category) => (
           <button
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
-              selectedCategory === category
+            key={category.id}
+            onClick={() => setSelectedCategoryId(category.id)}
+            className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
+              selectedCategoryId === category.id
                 ? 'bg-primary text-primary-foreground shadow-lg scale-105'
                 : 'bg-secondary text-secondary-foreground hover:bg-secondary/80 hover:scale-105'
             }`}
           >
-            {category}
+            {category.icon && <span>{category.icon}</span>}
+            {category.name}
           </button>
         ))}
       </div>
 
-      {/* Grid de items con animación */}
-      <div className="max-h-[800px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary scrollbar-track-secondary">
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredItems.map((item, index) => (
-            <div
-              key={item.id}
-              className="group rounded-2xl border bg-card shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
-              style={{
-                animation: `fadeIn 0.5s ease-out ${index * 0.1}s both`
-              }}
-            >
-              {/* Imagen del plato */}
-              <div className="relative h-56 w-full overflow-hidden bg-muted">
-                <Image
-                  src={item.image.imageUrl}
-                  alt={item.image.description}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      {/* Mensaje si no hay platos */}
+      {filteredDishes.length === 0 && (
+        <div className="text-center py-20">
+          <p className="text-xl text-muted-foreground">
+            No hay platos disponibles en esta categoría
+          </p>
+        </div>
+      )}
 
-                {/* Precio flotante */}
-                <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-full font-bold shadow-lg">
-                  {item.price}
+      {/* Grid de items con animación */}
+      {filteredDishes.length > 0 && (
+        <div className="max-h-[800px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-primary scrollbar-track-secondary">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredDishes.map((dish, index) => (
+              <div
+                key={dish.id}
+                className="group rounded-2xl border bg-card shadow-md overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-1"
+                style={{
+                  animation: `fadeIn 0.5s ease-out ${index * 0.1}s both`
+                }}
+              >
+                {/* Imagen del plato */}
+                <div className="relative h-56 w-full overflow-hidden bg-muted">
+                  <Image
+                    src={getDishImage(dish.image)}
+                    alt={dish.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Precio flotante */}
+                  <div className="absolute top-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-full font-bold shadow-lg">
+                    S/ {(Number(dish.price) || 0).toFixed(2)}
+                  </div>
+
+                  {/* Badges especiales */}
+                  <div className="absolute top-4 left-4 flex flex-col gap-2">
+                    {dish.isFeatured && (
+                      <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        ⭐ Destacado
+                      </span>
+                    )}
+                    {dish.isNew && (
+                      <span className="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        🆕 Nuevo
+                      </span>
+                    )}
+                    {dish.isVegetarian && (
+                      <span className="bg-green-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        🥬 Vegetariano
+                      </span>
+                    )}
+                    {dish.isVegan && (
+                      <span className="bg-green-700 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        🌱 Vegano
+                      </span>
+                    )}
+                    {dish.isSpicy && (
+                      <span className="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        🌶️ Picante
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Contenido de la tarjeta */}
+                <div className="p-5">
+                  <h3 className="text-xl font-semibold line-clamp-1 mb-2 group-hover:text-primary transition-colors">
+                    {dish.name}
+                  </h3>
+
+                  <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed mb-4">
+                    {dish.description}
+                  </p>
+
+                  {/* Alérgenos */}
+                  {dish.allergens && dish.allergens.length > 0 && (
+                    <div className="mb-3">
+                      <p className="text-xs text-muted-foreground mb-1">
+                        <span className="font-semibold">Alérgenos:</span> {dish.allergens.join(', ')}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Tags */}
+                  {dish.tags && dish.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {dish.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="rounded-full bg-secondary px-3 py-1 text-xs capitalize font-medium border border-border"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
               </div>
-
-              {/* Contenido de la tarjeta */}
-              <div className="p-5">
-                <h3 className="text-xl font-semibold line-clamp-1 mb-2 group-hover:text-primary transition-colors">
-                  {item.name}
-                </h3>
-
-                <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed mb-4">
-                  {item.description}
-                </p>
-
-                {/* Tags */}
-                {item.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-secondary px-3 py-1 text-xs capitalize font-medium border border-border"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       <style jsx>{`
         @keyframes fadeIn {
@@ -99,13 +226,8 @@ export default function MenuClientPage({ menuItems }: MenuClientPageProps) {
             opacity: 0;
             transform: translateY(20px);
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
         }
       `}</style>
     </div>
   );
 }
-

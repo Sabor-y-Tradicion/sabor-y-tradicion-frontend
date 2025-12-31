@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Edit, Trash2 } from "lucide-react";
-import type { Category } from "@/types/menu";
+import type { Category } from "@/lib/api/types";
 
 interface CategoriesTableProps {
   categories: Category[];
@@ -30,8 +30,8 @@ export function CategoriesTable({
 }: CategoriesTableProps) {
   if (isLoading) {
     return (
-      <div className="rounded-lg border bg-white">
-        <div className="p-8 text-center text-muted-foreground">
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+        <div className="p-8 text-center text-muted-foreground dark:text-gray-400">
           Cargando categorias...
         </div>
       </div>
@@ -40,76 +40,82 @@ export function CategoriesTable({
 
   if (categories.length === 0) {
     return (
-      <div className="rounded-lg border bg-white">
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
         <div className="p-8 text-center">
-          <p className="text-muted-foreground">No hay categorias</p>
+          <p className="text-muted-foreground dark:text-gray-400">No hay categorias</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="rounded-lg border bg-white">
+    <div className="rounded-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
       <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-16">Icono</TableHead>
-            <TableHead>Nombre</TableHead>
-            <TableHead>Descripción</TableHead>
-            <TableHead className="text-center">Platos</TableHead>
-            <TableHead className="text-center">Orden</TableHead>
-            <TableHead className="text-center">Estado</TableHead>
-            <TableHead className="text-right">Acciones</TableHead>
+        <TableHeader className="bg-gray-50 dark:bg-gray-700">
+          <TableRow className="dark:border-gray-600">
+            <TableHead className="w-16 dark:text-gray-300">Icono</TableHead>
+            <TableHead className="dark:text-gray-300">Nombre</TableHead>
+            <TableHead className="dark:text-gray-300">Descripción</TableHead>
+            <TableHead className="text-center dark:text-gray-300">Platos</TableHead>
+            <TableHead className="text-center dark:text-gray-300">Orden</TableHead>
+            <TableHead className="text-center dark:text-gray-300">Estado</TableHead>
+            <TableHead className="text-right dark:text-gray-300">Acciones</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className="dark:bg-gray-800">
           {categories.map((category) => (
-            <TableRow key={category.id}>
+            <TableRow key={category.id} className="dark:border-gray-700">
               <TableCell>
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100 text-2xl">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-100 dark:bg-orange-900/30 text-2xl">
                   {category.icon}
                 </div>
               </TableCell>
               <TableCell>
-                <span className="font-medium">{category.name}</span>
+                <span className="font-medium dark:text-white">{category.name}</span>
               </TableCell>
               <TableCell>
-                <span className="text-sm text-muted-foreground">
+                <span className="text-sm text-muted-foreground dark:text-gray-400">
                   {category.description || "Sin descripción"}
                 </span>
               </TableCell>
               <TableCell className="text-center">
-                <Badge variant="outline">{category.dishCount || 0}</Badge>
+                <Badge variant="outline" className="dark:border-gray-600 dark:text-gray-300">
+                  {category.dishCount || 0}
+                </Badge>
               </TableCell>
               <TableCell className="text-center">
-                <Badge variant="secondary">{category.order}</Badge>
+                <Badge
+                  variant="secondary"
+                  className="font-mono dark:bg-gray-700 dark:text-gray-300"
+                >
+                  {category.order || 0}
+                </Badge>
               </TableCell>
               <TableCell className="text-center">
-                <button onClick={() => onToggleStatus(category)}>
-                  <Badge
-                    variant={category.isActive ? "default" : "destructive"}
-                    className={category.isActive ? "bg-green-600 cursor-pointer" : "cursor-pointer"}
-                  >
-                    {category.isActive ? "Activa" : "Inactiva"}
-                  </Badge>
-                </button>
+                <Badge
+                  variant={category.isActive ? "default" : "secondary"}
+                  className={category.isActive ? "bg-green-600" : "dark:bg-gray-700"}
+                  onClick={() => onToggleStatus(category)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {category.isActive ? "Activa" : "Inactiva"}
+                </Badge>
               </TableCell>
-              <TableCell>
+              <TableCell className="text-right">
                 <div className="flex justify-end gap-2">
                   <Button
-                    size="sm"
                     variant="ghost"
+                    size="sm"
                     onClick={() => onEdit(category)}
-                    title="Editar"
+                    className="dark:text-gray-300 dark:hover:bg-gray-700"
                   >
                     <Edit className="h-4 w-4" />
                   </Button>
                   <Button
-                    size="sm"
                     variant="ghost"
+                    size="sm"
                     onClick={() => onDelete(category)}
-                    title="Eliminar"
-                    className="text-red-600 hover:text-red-700"
+                    className="text-red-600 hover:bg-red-50 dark:text-red-400 dark:hover:bg-red-900/20"
                     disabled={!!category.dishCount && category.dishCount > 0}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -123,4 +129,3 @@ export function CategoriesTable({
     </div>
   );
 }
-

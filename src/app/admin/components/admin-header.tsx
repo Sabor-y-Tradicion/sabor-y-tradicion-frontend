@@ -25,18 +25,18 @@ export function AdminHeader() {
   });
 
   return (
-    <header className="flex h-16 items-center justify-between border-b bg-white px-6">
+    <header className="flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-6">
       <div>
-        <h1 className="text-2xl font-bold text-gray-900">{pageName}</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{pageName}</h1>
         {breadcrumbs.length > 1 && (
-          <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
+          <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground dark:text-gray-400">
             {breadcrumbs.map((crumb, index) => (
               <div key={crumb.href} className="flex items-center gap-2">
                 {index > 0 && <ChevronRight className="h-4 w-4" />}
                 <span
                   className={
                     index === breadcrumbs.length - 1
-                      ? "text-orange-600 font-medium"
+                      ? "text-orange-600 dark:text-orange-400 font-medium"
                       : ""
                   }
                 >

@@ -3,6 +3,7 @@
 import { useAuth } from "@/contexts/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect } from "react";
+import { useTheme } from "@/hooks/use-theme";
 import { AdminSidebar } from "../components/sidebar";
 import { AdminHeader } from "../components/admin-header";
 
@@ -10,6 +11,9 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
   const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+
+  // Aplicar tema guardado
+  useTheme();
 
   // Permitir acceso a la página de login sin verificación
   const isLoginPage = pathname === "/admin/login";
@@ -44,11 +48,11 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
 
   // Layout completo del admin para páginas protegidas
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-white dark:bg-gray-900">
       <AdminSidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <AdminHeader />
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+        <main className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-800 p-6">
           {children}
         </main>
       </div>

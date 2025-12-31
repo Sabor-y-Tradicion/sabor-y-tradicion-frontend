@@ -53,7 +53,7 @@ export function DishForm({
       categoryId: initialData?.categoryId || "",
       image: initialData?.image || "",
       tags: initialData?.tags || [],
-      isAvailable: initialData?.isAvailable ?? true,
+      isActive: initialData?.isActive ?? true,
       isPopular: initialData?.isPopular || false,
       isNew: initialData?.isNew || false,
       preparationTime: initialData?.preparationTime || undefined,
@@ -64,7 +64,7 @@ export function DishForm({
 
   const watchImage = watch("image");
   const watchTags = watch("tags");
-  const watchIsAvailable = watch("isAvailable");
+  const watchIsActive = watch("isActive");
   const watchIsPopular = watch("isPopular");
   const watchIsNew = watch("isNew");
 
@@ -79,19 +79,22 @@ export function DishForm({
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
       {/* Información básica */}
-      <div className="rounded-lg border bg-white p-6">
-        <h3 className="mb-4 text-lg font-semibold">Información Básica</h3>
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+          Información Básica
+        </h3>
 
         <div className="space-y-4">
           {/* Nombre */}
           <div className="space-y-2">
-            <Label htmlFor="name">
+            <Label htmlFor="name" className="dark:text-gray-200">
               Nombre del plato <span className="text-red-500">*</span>
             </Label>
             <Input
               id="name"
               {...register("name")}
               placeholder="Ej: Ceviche Clásico"
+              className="dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
             />
             {errors.name && (
               <p className="text-sm text-red-500">{errors.name.message}</p>
@@ -100,7 +103,7 @@ export function DishForm({
 
           {/* Descripción */}
           <div className="space-y-2">
-            <Label htmlFor="description">
+            <Label htmlFor="description" className="dark:text-gray-200">
               Descripción <span className="text-red-500">*</span>
             </Label>
             <Textarea
@@ -108,6 +111,7 @@ export function DishForm({
               {...register("description")}
               placeholder="Describe el plato, sus ingredientes y preparación..."
               rows={4}
+              className="dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
             />
             {errors.description && (
               <p className="text-sm text-red-500">{errors.description.message}</p>
@@ -117,7 +121,7 @@ export function DishForm({
           {/* Precio y Categoría */}
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="price">
+              <Label htmlFor="price" className="dark:text-gray-200">
                 Precio (S/) <span className="text-red-500">*</span>
               </Label>
               <Input
@@ -126,6 +130,7 @@ export function DishForm({
                 step="0.01"
                 {...register("price", { valueAsNumber: true })}
                 placeholder="0.00"
+                className="dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
               />
               {errors.price && (
                 <p className="text-sm text-red-500">{errors.price.message}</p>
@@ -133,20 +138,24 @@ export function DishForm({
             </div>
 
             <div className="space-y-2">
-              <Label>
+              <Label htmlFor="categoryId" className="dark:text-gray-200">
                 Categoría <span className="text-red-500">*</span>
               </Label>
               <Select
                 value={watch("categoryId")}
                 onValueChange={handleCategoryChange}
               >
-                <SelectTrigger>
+                <SelectTrigger className="dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                   <SelectValue placeholder="Selecciona una categoría" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="dark:bg-gray-700 dark:border-gray-600">
                   {categories.map((category) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.icon} {category.name}
+                    <SelectItem
+                      key={category.id}
+                      value={category.id}
+                      className="dark:text-white dark:focus:bg-gray-600"
+                    >
+                      {category.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -159,113 +168,124 @@ export function DishForm({
         </div>
       </div>
 
-      {/* Imagen */}
-      <div className="rounded-lg border bg-white p-6">
-        <h3 className="mb-4 text-lg font-semibold">Imagen</h3>
-        <ImageUpload
-          value={watchImage}
-          onChange={(value) => setValue("image", value)}
-          error={errors.image?.message}
-        />
-      </div>
-
-      {/* Detalles adicionales */}
-      <div className="rounded-lg border bg-white p-6">
-        <h3 className="mb-4 text-lg font-semibold">Detalles Adicionales</h3>
+      {/* Detalles Adicionales */}
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+          Detalles Adicionales
+        </h3>
 
         <div className="space-y-4">
           {/* Tags */}
-          <TagInput
-            value={watchTags}
-            onChange={(tags) => setValue("tags", tags)}
-            error={errors.tags?.message}
-          />
+          <div className="space-y-2">
+            <Label className="dark:text-gray-200">Tags</Label>
+            <TagInput
+              value={watchTags || []}
+              onChange={(tags) => setValue("tags", tags)}
+            />
+            <p className="text-xs text-muted-foreground dark:text-gray-400">
+              Presiona Enter para agregar 0/5 tags
+            </p>
+          </div>
 
-          {/* Tiempo de preparación y porciones */}
+          {/* Tiempo de preparación y Porciones */}
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <Label htmlFor="preparationTime">Tiempo de preparación (min)</Label>
+              <Label htmlFor="preparationTime" className="dark:text-gray-200">
+                Tiempo de preparación (min)
+              </Label>
               <Input
                 id="preparationTime"
                 type="number"
                 {...register("preparationTime", { valueAsNumber: true })}
                 placeholder="30"
+                className="dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
               />
-              {errors.preparationTime && (
-                <p className="text-sm text-red-500">{errors.preparationTime.message}</p>
-              )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="servings">Porciones</Label>
+              <Label htmlFor="servings" className="dark:text-gray-200">
+                Porciones
+              </Label>
               <Input
                 id="servings"
                 type="number"
                 {...register("servings", { valueAsNumber: true })}
                 placeholder="1"
+                className="dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
               />
-              {errors.servings && (
-                <p className="text-sm text-red-500">{errors.servings.message}</p>
-              )}
+            </div>
+          </div>
+
+          {/* Estados */}
+          <div className="space-y-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 p-4">
+              <div>
+                <p className="font-medium text-sm text-gray-900 dark:text-white">
+                  Estado del plato
+                </p>
+                <p className="text-xs text-muted-foreground dark:text-gray-400">
+                  Activar o desactivar la disponibilidad
+                </p>
+              </div>
+              <Switch
+                checked={watchIsActive}
+                onCheckedChange={(checked) => setValue("isActive", checked)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 p-4">
+              <div>
+                <p className="font-medium text-sm text-gray-900 dark:text-white">
+                  Plato popular
+                </p>
+                <p className="text-xs text-muted-foreground dark:text-gray-400">
+                  Destacar como plato popular
+                </p>
+              </div>
+              <Switch
+                checked={watchIsPopular}
+                onCheckedChange={(checked) => setValue("isPopular", checked)}
+              />
+            </div>
+
+            <div className="flex items-center justify-between rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 p-4">
+              <div>
+                <p className="font-medium text-sm text-gray-900 dark:text-white">
+                  Plato nuevo
+                </p>
+                <p className="text-xs text-muted-foreground dark:text-gray-400">
+                  Marcar como novedad
+                </p>
+              </div>
+              <Switch
+                checked={watchIsNew}
+                onCheckedChange={(checked) => setValue("isNew", checked)}
+              />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Estados */}
-      <div className="rounded-lg border bg-white p-6">
-        <h3 className="mb-4 text-lg font-semibold">Estado del Plato</h3>
-
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Disponible</Label>
-              <p className="text-sm text-muted-foreground">
-                El plato está disponible para ordenar
-              </p>
-            </div>
-            <Switch
-              checked={watchIsAvailable}
-              onCheckedChange={(checked) => setValue("isAvailable", checked)}
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Plato Popular</Label>
-              <p className="text-sm text-muted-foreground">
-                Marcar como uno de los platos más populares
-              </p>
-            </div>
-            <Switch
-              checked={watchIsPopular}
-              onCheckedChange={(checked) => setValue("isPopular", checked)}
-            />
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Plato Nuevo</Label>
-              <p className="text-sm text-muted-foreground">
-                Mostrar como novedad en el menú
-              </p>
-            </div>
-            <Switch
-              checked={watchIsNew}
-              onCheckedChange={(checked) => setValue("isNew", checked)}
-            />
-          </div>
-        </div>
+      {/* Imagen */}
+      <div className="rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-6">
+        <h3 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
+          Imagen del Plato
+        </h3>
+        <ImageUpload
+          value={watchImage || ""}
+          onChange={(value) => setValue("image", value)}
+        />
       </div>
 
       {/* Botones de acción */}
-      <div className="flex gap-3">
+      <div className="flex gap-4 justify-end">
         {onCancel && (
           <Button
             type="button"
             variant="outline"
             onClick={onCancel}
             disabled={isLoading}
+            className="dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700"
           >
             Cancelar
           </Button>

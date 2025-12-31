@@ -17,7 +17,7 @@ const findImage = (id: string): ImagePlaceholder => {
         return {
             id: 'fallback',
             description: 'A delicious dish',
-            imageUrl: 'https://picsum.photos/seed/fallback/400/300',
+            imageUrl: '/images/menu/Predeterminado/Predeterminado.jpg',
             imageHint: 'food dish',
         };
     }
