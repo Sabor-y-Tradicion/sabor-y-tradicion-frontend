@@ -40,7 +40,20 @@ export function AdminDashboard() {
       setCategories(categoriesData || []);
 
       // dishesAPI.getAll retorna PaginatedResponse<Dish>
-      const dishesData = dishesResponse?.data || [];
+      // Manejar diferentes estructuras de respuesta
+      let dishesData: any[] = [];
+
+      if (dishesResponse) {
+        // Si viene como PaginatedResponse con data
+        if (dishesResponse.data && Array.isArray(dishesResponse.data)) {
+          dishesData = dishesResponse.data;
+        }
+        // Si viene como array directo
+        else if (Array.isArray(dishesResponse)) {
+          dishesData = dishesResponse;
+        }
+      }
+
       console.log('📊 Dashboard: Platos cargados:', dishesData.length);
 
       // Normalizar price a number
