@@ -114,7 +114,7 @@ export default function AdminMenuPage() {
       {/* Header */}
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Gestion del Menu</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Platos</h1>
           <p className="text-muted-foreground dark:text-gray-400">
             Administra los platos de tu restaurante
           </p>
@@ -129,6 +129,12 @@ export default function AdminMenuPage() {
             <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
             Actualizar
           </Button>
+          <Link href="/admin/menu/subtags">
+            <Button variant="outline" className="gap-2 dark:border-gray-600 dark:text-gray-200 dark:hover:bg-gray-700">
+              <Plus className="h-4 w-4" />
+              Subtags
+            </Button>
+          </Link>
           <Link href="/admin/menu/new">
             <Button className="gap-2">
               <Plus className="h-4 w-4" />

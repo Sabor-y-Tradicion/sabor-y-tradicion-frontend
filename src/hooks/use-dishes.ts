@@ -27,9 +27,7 @@ export const useDishes = (initialFilters?: DishFilters) => {
     try {
       setIsLoading(true);
       setError(null);
-      console.log('🔍 Fetching dishes...');
       const response = await dishesAPI.getAll(filters);
-      console.log('📡 Response:', response);
 
       // Manejar diferentes formatos de respuesta del backend
       let dishesData: Dish[] = [];
@@ -37,7 +35,6 @@ export const useDishes = (initialFilters?: DishFilters) => {
       if (response) {
         // Caso 1: response.data.data (backend con paginación anidada)
         if ((response as any).data && (response as any).data.data && Array.isArray((response as any).data.data)) {
-          console.log('✅ Using response.data.data');
           dishesData = (response as any).data.data;
           if ((response as any).data.pagination) {
             setPagination((response as any).data.pagination);
@@ -45,7 +42,6 @@ export const useDishes = (initialFilters?: DishFilters) => {
         }
         // Caso 2: response.data (respuesta paginada normal)
         else if ((response as any).data && Array.isArray((response as any).data)) {
-          console.log('✅ Using response.data');
           dishesData = (response as any).data;
           if ((response as any).pagination) {
             setPagination((response as any).pagination);
@@ -53,12 +49,9 @@ export const useDishes = (initialFilters?: DishFilters) => {
         }
         // Caso 3: response es directamente un array
         else if (Array.isArray(response)) {
-          console.log('✅ Using response directly');
           dishesData = response;
         }
       }
-
-      console.log('📊 Final dishes count:', dishesData.length);
 
       // Convertir price a number
       const normalizedDishes = dishesData.map(dish => ({
@@ -68,7 +61,6 @@ export const useDishes = (initialFilters?: DishFilters) => {
 
       setDishes(normalizedDishes);
     } catch (err) {
-      console.error('❌ Error fetching dishes:', err);
       const errorMsg = err instanceof Error ? err.message : 'Error al cargar platos';
       setError(errorMsg);
       setDishes([]);

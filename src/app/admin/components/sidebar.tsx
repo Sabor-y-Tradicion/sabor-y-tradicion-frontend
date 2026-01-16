@@ -13,8 +13,12 @@ import {
   Menu,
   X,
   Home,
+  ShoppingBag,
+  Users,
+  Globe,
 } from "lucide-react";
 import { useAuth } from "@/contexts/auth-context";
+import { useTenant } from "@/contexts/tenant-context";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -23,28 +27,65 @@ const navigation = [
     name: "Dashboard",
     href: "/admin",
     icon: LayoutDashboard,
+    exact: true, // Solo activo en exactamente /admin
   },
   {
-    name: "Gestión del Menú",
+    name: "Platos",
     href: "/admin/menu",
     icon: UtensilsCrossed,
+    exact: false, // Activo en /admin/menu y sus rutas hijas
   },
   {
     name: "Categorías",
     href: "/admin/categories",
     icon: FolderOpen,
+    exact: false,
+  },
+  {
+    name: "Pedidos",
+    href: "/orders",
+    icon: ShoppingBag,
+    exact: false,
+  },
+  {
+    name: "Página Web",
+    href: "/admin/website",
+    icon: Globe,
+    exact: false,
+  },
+  {
+    name: "Usuarios",
+    href: "/admin/users",
+    icon: Users,
+    exact: false,
   },
   {
     name: "Configuración",
     href: "/admin/settings",
     icon: Settings,
+    exact: false,
   },
 ];
 
 export function AdminSidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
+  const { tenant } = useTenant();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Obtener el logo del tenant o usar el por defecto
+  const logoUrl = tenant?.settings?.logo || "/images/logo/logo.png";
+
+  // Función para determinar si un item está activo
+  const isItemActive = (item: typeof navigation[0]) => {
+    if (item.exact) {
+      // Para Dashboard: solo activo si es exactamente /admin
+      return pathname === item.href;
+    } else {
+      // Para otros: activo si el pathname comienza con el href
+      return pathname?.startsWith(item.href) || false;
+    }
+  };
 
   return (
     <>
@@ -73,19 +114,24 @@ export function AdminSidebar() {
       {/* Sidebar */}
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 transition-transform duration-300 md:relative md:translate-x-0",
-          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          "flex w-64 flex-col border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900",
+          // Mobile: fixed y con animación
+          "fixed inset-y-0 left-0 z-40 transition-transform duration-300",
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full",
+          // Desktop: relative y siempre visible
+          "md:relative md:translate-x-0"
         )}
       >
         {/* Logo */}
         <div className="flex h-16 items-center justify-between border-b border-gray-200 dark:border-gray-700 px-6">
           <div className="flex items-center gap-2">
             <Image
-              src="/images/logo/logo.png"
-              alt="Sabor y Tradición"
+              src={logoUrl}
+              alt="Logo"
               width={40}
               height={40}
               className="object-contain"
+              unoptimized={logoUrl.startsWith('data:')}
             />
             <span className="text-lg font-bold text-orange-600 dark:text-orange-400">
               Admin Panel
@@ -121,7 +167,7 @@ export function AdminSidebar() {
         {/* Navigation */}
         <nav className="flex-1 space-y-1 overflow-y-auto p-4">
           {navigation.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = isItemActive(item);
             return (
               <Link
                 key={item.name}

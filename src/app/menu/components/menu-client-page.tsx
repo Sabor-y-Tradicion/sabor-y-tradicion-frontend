@@ -2,16 +2,30 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { ShoppingCart, Plus, Minus } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { categoriesAPI } from '@/lib/api/categories';
 import { dishesAPI } from '@/lib/api/dishes';
 import type { Category, Dish } from '@/lib/api/types';
 import { getDishImage } from '@/lib/constants';
+import { useCart } from '@/contexts/cart-context';
+import { useSubtags } from '@/hooks/use-subtags';
 
 export default function MenuClientPage() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [dishes, setDishes] = useState<Dish[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState<string>('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
+
+  const { addItem } = useCart();
+  const { subtags } = useSubtags();
+
+  // Crear un mapa de ID a nombre de subtags para búsqueda rápida
+  const subtagMap = subtags.reduce((acc, subtag) => {
+    acc[subtag.id] = subtag.name;
+    return acc;
+  }, {} as Record<string, string>);
 
   // Cargar categorías y platos al montar
   useEffect(() => {
@@ -59,6 +73,13 @@ export default function MenuClientPage() {
       }));
 
       setDishes(normalizedDishes);
+
+      // Inicializar cantidades en 1 para cada plato
+      const initialQuantities: Record<string, number> = {};
+      normalizedDishes.forEach(dish => {
+        initialQuantities[dish.id] = 1;
+      });
+      setQuantities(initialQuantities);
     } catch (error) {
       console.error('Error al cargar datos del menú:', error);
       setCategories([]);
@@ -66,6 +87,25 @@ export default function MenuClientPage() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  // Manejar cambio de cantidad
+  const handleQuantityChange = (dishId: string, delta: number) => {
+    setQuantities(prev => ({
+      ...prev,
+      [dishId]: Math.max(1, (prev[dishId] || 1) + delta)
+    }));
+  };
+
+  // Agregar al carrito
+  const handleAddToCart = (dish: Dish) => {
+    const quantity = quantities[dish.id] || 1;
+    addItem(dish, quantity);
+    // Resetear cantidad a 1 después de agregar
+    setQuantities(prev => ({
+      ...prev,
+      [dish.id]: 1
+    }));
   };
 
   // Filtrar platos por categoría seleccionada
@@ -200,19 +240,61 @@ export default function MenuClientPage() {
                     </div>
                   )}
 
-                  {/* Tags */}
+                  {/* Tags (Subtags) */}
                   {dish.tags && dish.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {dish.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full bg-secondary px-3 py-1 text-xs capitalize font-medium border border-border"
-                        >
-                          {tag}
-                        </span>
-                      ))}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {dish.tags.map((tagId) => {
+                        // Obtener el nombre del subtag desde el mapa
+                        const subtagName = subtagMap[tagId];
+                        // Solo mostrar si existe el subtag
+                        if (!subtagName) return null;
+
+                        return (
+                          <span
+                            key={tagId}
+                            className="rounded-full bg-secondary px-3 py-1 text-xs capitalize font-medium border border-border"
+                          >
+                            {subtagName}
+                          </span>
+                        );
+                      })}
                     </div>
                   )}
+
+                  {/* Control de cantidad y botón de agregar al carrito */}
+                  <div className="flex items-center gap-3 mt-4">
+                    {/* Controles de cantidad */}
+                    <div className="flex items-center gap-2 border rounded-lg">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-9 w-9 hover:bg-muted"
+                        onClick={() => handleQuantityChange(dish.id, -1)}
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="text-sm font-semibold w-8 text-center">
+                        {quantities[dish.id] || 1}
+                      </span>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-9 w-9 hover:bg-muted"
+                        onClick={() => handleQuantityChange(dish.id, 1)}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+
+                    {/* Botón agregar al carrito */}
+                    <Button
+                      className="flex-1 h-9 gap-2"
+                      onClick={() => handleAddToCart(dish)}
+                    >
+                      <ShoppingCart className="h-4 w-4" />
+                      Agregar
+                    </Button>
+                  </div>
                 </div>
               </div>
             ))}

@@ -1,71 +1,134 @@
-import Image from 'next/image';
-import { PlaceHolderImages } from '@/lib/placeholder-images';
+"use client";
 
-function findImage(id: string) {
-    return PlaceHolderImages.find((img) => img.id === id)!;
-}
+import { useTenant } from '@/contexts/tenant-context';
 
 export default function AboutPage() {
-    const restaurantImage = findImage('about-restaurant');
-    const teamImage = findImage('about-team');
+    const { tenant } = useTenant();
+
+    // Obtener datos del aboutPage desde settings
+    const aboutPage = tenant?.settings?.aboutPage;
+    const headerData = aboutPage?.header || {};
+    const historyData = aboutPage?.history || {};
+    const philosophyData = aboutPage?.philosophy || {};
+    const teamData = aboutPage?.team || {};
 
     return (
         <div className="py-16 md:py-24">
             <div className="container mx-auto px-4">
-                <header className="text-center">
-                    <h1 className="font-headline text-5xl font-bold md:text-6xl">Nuestra Esencia</h1>
-                    <p className="mx-auto mt-4 max-w-3xl text-lg text-muted-foreground">
-                        Sabor auténtico de Chachapoyas, tradición en cada plato. Somos un restaurante dedicado a preservar y compartir la riqueza gastronómica de nuestra tierra amazonense.
-                    </p>
-                </header>
+                {/* Header */}
+                {(headerData.title || headerData.subtitle) && (
+                    <header className="text-center mb-16">
+                        {headerData.title && (
+                            <h1 className="font-headline text-5xl font-bold md:text-6xl">
+                                {headerData.title}
+                            </h1>
+                        )}
+                        {headerData.subtitle && (
+                            <p className="mx-auto mt-6 max-w-3xl text-lg text-muted-foreground">
+                                {headerData.subtitle}
+                            </p>
+                        )}
+                    </header>
+                )}
 
-                <section className="mt-16 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-                    <div className="relative h-96 w-full">
-                        <Image
-                            src={restaurantImage.imageUrl}
-                            alt="Interior del restaurante Sabor y Tradición"
-                            fill
-                            className="rounded-lg object-cover shadow-xl"
-                            data-ai-hint={restaurantImage.imageHint}
-                        />
-                    </div>
-                    <div className="space-y-4">
-                        <h2 className="font-headline text-4xl font-semibold">Nuestra Historia</h2>
-                        <p className="text-lg leading-relaxed text-muted-foreground">
-                            Sabor y Tradición nació en el corazón de Chachapoyas, Amazonas, con la misión de rescatar y celebrar la gastronomía tradicional de nuestra región. Fundado por chachapoyanos apasionados por las recetas ancestrales y los ingredientes locales de nuestra tierra, nuestro restaurante es el resultado de años preservando los sabores auténticos que nos heredaron nuestros abuelos.
-                        </p>
-                        <p className="text-lg leading-relaxed text-muted-foreground">
-                            Cada plato cuenta la historia de Chachapoyas, preparado con técnicas tradicionales y los mejores productos de nuestra región amazónica, desde las carnes hasta las verduras y tubérculos locales.
-                        </p>
-                    </div>
-                </section>
+                {/* History Section */}
+                {historyData.enabled && (historyData.image || historyData.title || historyData.content) && (
+                    <section className="mt-16 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+                        {historyData.image && (
+                            <div className="relative h-96 w-full group overflow-hidden rounded-2xl">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-primary via-primary/50 to-primary rounded-2xl opacity-0 group-hover:opacity-75 blur transition-opacity duration-500"></div>
+                                <div className="relative h-full w-full">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={historyData.image}
+                                        alt={historyData.title || "Nuestra Historia"}
+                                        className="w-full h-full rounded-2xl object-cover shadow-2xl transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
+                                    />
+                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1500"></div>
+                                    </div>
+                                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/10" />
+                                </div>
+                            </div>
+                        )}
+                        <div className="space-y-4">
+                            {historyData.title && (
+                                <h2 className="font-headline text-4xl font-semibold">{historyData.title}</h2>
+                            )}
+                            {historyData.content && (
+                                <p className="text-lg leading-relaxed text-muted-foreground">
+                                    {historyData.content}
+                                </p>
+                            )}
+                        </div>
+                    </section>
+                )}
 
-                <section className="mt-24">
-                    <div className="mx-auto max-w-4xl text-center">
-                        <h2 className="font-headline text-4xl font-semibold">Nuestra Filosofía</h2>
-                        <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-                            Nos especializamos en comida típica chachapoyana, manteniendo vivas las recetas tradicionales que definen nuestra identidad cultural. También ofrecemos platos a la carta que complementan nuestra oferta, siempre respetando la esencia de nuestra cocina regional. Trabajamos con productores locales de Amazonas para garantizar ingredientes frescos y auténticos en cada preparación. Nuestra cocina es un homenaje a Chachapoyas y su herencia culinaria.
-                        </p>
-                    </div>
-                </section>
+                {/* Philosophy Section */}
+                {philosophyData.enabled && (philosophyData.image || philosophyData.title || philosophyData.content) && (
+                    <section className="mt-24 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+                        <div className="space-y-4 md:order-2">
+                            {philosophyData.title && (
+                                <h2 className="font-headline text-4xl font-semibold">{philosophyData.title}</h2>
+                            )}
+                            {philosophyData.content && (
+                                <p className="text-lg leading-relaxed text-muted-foreground">
+                                    {philosophyData.content}
+                                </p>
+                            )}
+                        </div>
+                        {philosophyData.image && (
+                            <div className="relative h-96 w-full group overflow-hidden rounded-2xl md:order-1">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-primary via-primary/50 to-primary rounded-2xl opacity-0 group-hover:opacity-75 blur transition-opacity duration-500"></div>
+                                <div className="relative h-full w-full">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={philosophyData.image}
+                                        alt={philosophyData.title || "Nuestra Filosofía"}
+                                        className="w-full h-full rounded-2xl object-cover shadow-2xl transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
+                                    />
+                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1500"></div>
+                                    </div>
+                                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/10" />
+                                </div>
+                            </div>
+                        )}
+                    </section>
+                )}
 
-                <section className="mt-24 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
-                    <div className="space-y-4 md:order-2">
-                        <h2 className="font-headline text-4xl font-semibold">Conoce al Equipo</h2>
-                        <p className="text-lg leading-relaxed text-muted-foreground">
-                            Nuestro equipo está conformado por chachapoyanos orgullosos de su tierra, desde nuestro chef que domina las técnicas tradicionales de la cocina regional, hasta nuestro personal de sala que te hará sentir como en casa. Cada miembro del equipo conoce la historia detrás de nuestros platos típicos y está comprometido con ofrecer una experiencia gastronómica auténtica de Chachapoyas.
-                        </p>
-                    </div>
-                    <div className="relative h-96 w-full md:order-1">
-                        <Image
-                            src={teamImage.imageUrl}
-                            alt="El equipo de Sabor y Tradición"
-                            fill
-                            className="rounded-lg object-cover shadow-xl"
-                            data-ai-hint={teamImage.imageHint}
-                        />
-                    </div>
-                </section>
+                {/* Team Section */}
+                {teamData.enabled && (teamData.image || teamData.title || teamData.content) && (
+                    <section className="mt-24 grid grid-cols-1 items-center gap-12 md:grid-cols-2">
+                        {teamData.image && (
+                            <div className="relative h-96 w-full group overflow-hidden rounded-2xl">
+                                <div className="absolute -inset-1 bg-gradient-to-r from-primary via-primary/50 to-primary rounded-2xl opacity-0 group-hover:opacity-75 blur transition-opacity duration-500"></div>
+                                <div className="relative h-full w-full">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={teamData.image}
+                                        alt={teamData.title || "Nuestro Equipo"}
+                                        className="w-full h-full rounded-2xl object-cover shadow-2xl transition-all duration-700 group-hover:scale-105 group-hover:brightness-110"
+                                    />
+                                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1500"></div>
+                                    </div>
+                                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/10" />
+                                </div>
+                            </div>
+                        )}
+                        <div className="space-y-4">
+                            {teamData.title && (
+                                <h2 className="font-headline text-4xl font-semibold">{teamData.title}</h2>
+                            )}
+                            {teamData.content && (
+                                <p className="text-lg leading-relaxed text-muted-foreground">
+                                    {teamData.content}
+                                </p>
+                            )}
+                        </div>
+                    </section>
+                )}
             </div>
         </div>
     );

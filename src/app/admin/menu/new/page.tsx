@@ -64,7 +64,6 @@ export default function NewDishPage() {
         allergens: data.allergens || [],
         tags: data.tags || [],
         preparationTime: data.preparationTime,
-        servings: data.servings,
         order: 0,
       };
 

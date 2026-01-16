@@ -85,7 +85,6 @@ export default function EditDishPage() {
         allergens: data.allergens || [],
         tags: data.tags || [],
         preparationTime: data.preparationTime,
-        servings: data.servings,
         order: dish?.order || 0,
       };
 
@@ -158,7 +157,6 @@ export default function EditDishPage() {
             isPopular: dish.isFeatured || false,
             isNew: dish.isNew || false,
             preparationTime: dish.preparationTime,
-            servings: dish.servings,
             allergens: dish.allergens || [],
           }}
           categories={categories}

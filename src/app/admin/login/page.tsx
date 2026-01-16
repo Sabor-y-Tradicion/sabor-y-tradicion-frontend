@@ -1,95 +1,27 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/auth-context";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
+import { Loader2 } from "lucide-react";
 
-export default function AdminLoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const { login, isAuthenticated } = useAuth();
+/**
+ * Página de redirección de /admin/login a /login
+ * El login unificado está en /login y redirige según el rol del usuario
+ */
+export default function AdminLoginRedirect() {
   const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      router.push("/admin");
-    }
-  }, [isAuthenticated, router]);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      await login({ email, password });
-      // El toast y la redirección se manejan en el AuthContext
-    } catch {
-      // Los errores se manejan en el AuthContext
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    // Redirigir al login unificado
+    router.replace("/login");
+  }, [router]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-4 text-center">
-          <div className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-orange-100">
-            <Image
-              src="/images/logo/logo.png"
-              alt="Sabor y Tradición"
-              width={60}
-              height={60}
-              className="object-contain"
-            />
-          </div>
-          <CardTitle className="text-2xl font-bold">Panel de Administración</CardTitle>
-          <CardDescription>
-            Ingresa tus credenciales para acceder al panel
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Correo electrónico</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="admin@sabor-y-tradicion.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                disabled={isLoading}
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full"
-              disabled={isLoading}
-            >
-              {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 dark:from-slate-900 dark:to-slate-800">
+      <div className="text-center">
+        <Loader2 className="h-8 w-8 animate-spin text-orange-600 mx-auto mb-4" />
+        <p className="text-muted-foreground">Redirigiendo...</p>
+      </div>
     </div>
   );
 }

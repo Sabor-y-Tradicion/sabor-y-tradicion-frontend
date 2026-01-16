@@ -1,16 +1,25 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { LayoutWrapper } from '@/components/layout/layout-wrapper';
+import { AuthProvider } from '@/contexts/auth-context';
+import { TenantProvider } from '@/contexts/tenant-context';
+import { TenantThemeProvider } from '@/contexts/tenant-theme-context';
 import { Toaster } from '@/components/ui/toaster';
+import { TenantHead } from '@/components/tenant-head';
+
+// Importar herramientas de debug en desarrollo
+if (process.env.NODE_ENV === 'development') {
+    import('@/lib/debug-sessions');
+}
 
 export const metadata: Metadata = {
-    title: 'Sabor y Tradición - Restaurante Chachapoyana',
-    description: 'Cocina tradicional chachapoyana en el corazón de Amazonas. Platos típicos, menú del día y opciones a la carta.',
-    keywords: ['restaurante', 'Chachapoyas', 'comida chachapoyana', 'comida tradicional', 'Amazonas', 'Perú'],
-    authors: [{ name: 'Sabor y Tradición' }],
+    title: 'Restaurante - Menú Digital',
+    description: 'Menú digital de restaurante. Descubre nuestros platos y realiza tu pedido.',
+    keywords: ['restaurante', 'menú digital', 'comida', 'pedidos online'],
+    authors: [{ name: 'Sistema de Restaurantes' }],
     openGraph: {
-        title: 'Sabor y Tradición - Restaurante Chachapoyana',
-        description: 'Cocina tradicional chachapoyana en el corazón de Amazonas',
+        title: 'Restaurante - Menú Digital',
+        description: 'Menú digital de restaurante',
         type: 'website',
         locale: 'es_PE',
     },
@@ -52,8 +61,15 @@ export default function RootLayout({
             />
         </head>
         <body className="font-body antialiased">
-        <LayoutWrapper>{children}</LayoutWrapper>
-        <Toaster />
+        <AuthProvider>
+            <TenantProvider>
+                <TenantThemeProvider>
+                    <TenantHead />
+                    <LayoutWrapper>{children}</LayoutWrapper>
+                    <Toaster />
+                </TenantThemeProvider>
+            </TenantProvider>
+        </AuthProvider>
         </body>
         </html>
     );

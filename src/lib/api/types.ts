@@ -18,12 +18,15 @@ export interface PaginatedResponse<T> {
 }
 
 // Tipos de Usuario
+export type UserRole = 'SUPERADMIN' | 'ADMIN' | 'ORDERS_MANAGER';
+
 export interface User {
   id: string;
   email: string;
   name: string;
-  role: 'ADMIN' | 'EDITOR';
+  role: UserRole;
   createdAt: string;
+  tenantId?: string; // ID del tenant al que pertenece (null para SUPERADMIN)
 }
 
 // Tipos de Autenticación
@@ -36,7 +39,7 @@ export interface RegisterData {
   email: string;
   password: string;
   name: string;
-  role?: 'ADMIN' | 'EDITOR';
+  role?: UserRole;
 }
 
 export interface AuthResponse {

@@ -34,14 +34,32 @@ export function AdminDashboard() {
 
       const [categoriesData, dishesResponse] = await Promise.all([
         categoriesAPI.getAll(),
-        dishesAPI.getAll({ isActive: true })
+        dishesAPI.getAll() // Sin filtros para obtener todos los platos
       ]);
 
-      setCategories(categoriesData || []);
+      setCategories(Array.isArray(categoriesData) ? categoriesData : []);
 
       // dishesAPI.getAll retorna PaginatedResponse<Dish>
-      const dishesData = dishesResponse?.data || [];
-      console.log('📊 Dashboard: Platos cargados:', dishesData.length);
+      // La respuesta tiene la estructura: { success, data: Dish[], pagination }
+      let dishesData: Dish[] = [];
+
+      if (dishesResponse) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const resp = dishesResponse as any;
+
+        // Caso principal: PaginatedResponse con data como array
+        if (Array.isArray(resp.data)) {
+          dishesData = resp.data;
+        }
+        // Caso alternativo: respuesta anidada con data.data
+        else if (resp.data && Array.isArray(resp.data.data)) {
+          dishesData = resp.data.data;
+        }
+        // Caso: respuesta directamente como array
+        else if (Array.isArray(resp)) {
+          dishesData = resp;
+        }
+      }
 
       // Normalizar price a number
       const normalizedDishes = dishesData.map(dish => ({

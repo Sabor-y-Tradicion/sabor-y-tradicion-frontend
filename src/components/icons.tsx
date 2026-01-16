@@ -3,22 +3,30 @@ import Image from "next/image"
 
 interface IconProps extends React.SVGProps<SVGSVGElement> {
   useCustomLogo?: boolean;
+  logoUrl?: string;
 }
 
-export function Logo({ className, useCustomLogo = false, ...props }: IconProps) {
+const DEFAULT_LOGO = "/images/logo/logo.png";
+
+export function Logo({ className, useCustomLogo = false, logoUrl, ...props }: IconProps) {
   // Si quieres usar tu logo personalizado, coloca la imagen en:
   // public/images/logo/logo.png (o logo.svg)
   // Y cambia useCustomLogo a true en los componentes
 
-  if (useCustomLogo) {
+  // Usar el logo del tenant si está disponible, sino el por defecto
+  const displayLogo = logoUrl || DEFAULT_LOGO;
+  const isBase64 = displayLogo.startsWith('data:');
+
+  if (useCustomLogo || logoUrl) {
     return (
       <div className="relative" style={{ width: '40px', height: '40px' }}>
         <Image
-          src="/images/logo/logo.png"
-          alt="Logo Sabor y Tradición"
+          src={displayLogo}
+          alt="Logo"
           fill
           className="object-contain"
           priority
+          unoptimized={isBase64}
         />
       </div>
     );

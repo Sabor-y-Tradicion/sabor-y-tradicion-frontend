@@ -2,14 +2,12 @@
 
 import { useState, KeyboardEvent } from "react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { X } from "lucide-react";
 
 interface TagInputProps {
   value: string[];
   onChange: (tags: string[]) => void;
-  label?: string;
   placeholder?: string;
   maxTags?: number;
   error?: string;
@@ -18,7 +16,6 @@ interface TagInputProps {
 export function TagInput({
   value,
   onChange,
-  label = "Tags",
   placeholder = "Escribe un tag y presiona Enter",
   maxTags = 5,
   error,
@@ -59,11 +56,10 @@ export function TagInput({
 
   return (
     <div className="space-y-2">
-      <Label>{label}</Label>
-
       <div
         className={`
           flex min-h-[42px] flex-wrap gap-2 rounded-md border p-2
+          dark:bg-gray-700 dark:border-gray-600
           ${error ? 'border-red-500' : 'border-input'}
         `}
       >
@@ -92,14 +88,14 @@ export function TagInput({
             onKeyDown={handleKeyDown}
             onBlur={addTag}
             placeholder={value.length === 0 ? placeholder : ""}
-            className="h-auto flex-1 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            className="h-auto flex-1 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400"
           />
         )}
       </div>
 
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
+      <div className="flex items-center justify-between text-xs text-muted-foreground dark:text-gray-400">
         <span>
-          Presiona Enter para agregar. {value.length}/{maxTags} tags
+          {value.length}/{maxTags} tags
         </span>
         {value.length >= maxTags && (
           <span className="text-orange-500">Máximo alcanzado</span>

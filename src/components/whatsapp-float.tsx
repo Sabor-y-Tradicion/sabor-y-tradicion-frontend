@@ -1,36 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MessageCircle, X, Calendar, FileText, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface SocialMedia {
-  whatsapp: string;
-  socialNetworks?: Array<{
-    id: string;
-    name: string;
-    url: string;
-    icon: string;
-  }>;
-}
+import { useTenant } from "@/contexts/tenant-context";
 
 export function WhatsAppFloat() {
   const [isOpen, setIsOpen] = useState(false);
-  const [whatsappNumber, setWhatsappNumber] = useState("");
+  const { tenant } = useTenant();
 
-  useEffect(() => {
-    const savedSocialMedia = localStorage.getItem("social_media");
-    if (savedSocialMedia) {
-      try {
-        const parsed: SocialMedia = JSON.parse(savedSocialMedia);
-        if (parsed.whatsapp) {
-          setWhatsappNumber(parsed.whatsapp);
-        }
-      } catch {
-        // Ignore parsing errors
-      }
-    }
-  }, []);
+  // Intentar obtener el estado del carrito, pero sin lanzar error si no está disponible
+  let isCartOpen = false;
+  try {
+    // Usar import dinámico para evitar error si no está en CartProvider
+    const { useCart } = require("@/contexts/cart-context");
+    const cartContext = useCart();
+    isCartOpen = cartContext.isOpen;
+  } catch (error) {
+    // Si falla, simplemente no ocultamos el botón
+    isCartOpen = false;
+  }
+
+  // Obtener el número de WhatsApp desde los settings del tenant
+  const whatsappNumber = tenant?.settings?.whatsapp || "";
 
   const handleWhatsAppClick = (message: string) => {
     // Limpiar el número de espacios y caracteres especiales
@@ -62,15 +54,15 @@ export function WhatsAppFloat() {
     },
   ];
 
-  // No mostrar el botón si no hay número de WhatsApp configurado
-  if (!whatsappNumber) {
+  // No mostrar el botón si no hay número de WhatsApp configurado o si el carrito está abierto
+  if (!whatsappNumber || isCartOpen) {
     return null;
   }
 
   return (
     <>
-      {/* Botón principal flotante */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+      {/* Botón principal flotante - posicionado arriba del carrito */}
+      <div className="fixed bottom-28 right-6 z-40 flex flex-col items-end gap-3">
         {/* Opciones desplegables */}
         {isOpen && (
           <div className="flex flex-col gap-2 animate-in fade-in slide-in-from-bottom-4 duration-300">
@@ -113,7 +105,7 @@ export function WhatsAppFloat() {
       {/* Overlay para cerrar al hacer clic fuera */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40"
+          className="fixed inset-0 z-30"
           onClick={() => setIsOpen(false)}
           aria-hidden="true"
         />
@@ -121,4 +113,3 @@ export function WhatsAppFloat() {
     </>
   );
 }
-

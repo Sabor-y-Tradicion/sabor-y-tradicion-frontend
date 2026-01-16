@@ -9,6 +9,7 @@ import { Logo } from '@/components/icons';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
+import { useTenant } from '@/contexts/tenant-context';
 
 const navLinks = [
     { href: '/', label: 'Inicio' },
@@ -20,6 +21,10 @@ const navLinks = [
 export function Header() {
     const pathname = usePathname();
     const [isSheetOpen, setSheetOpen] = useState(false);
+    const { tenant } = useTenant();
+
+    const restaurantName = tenant?.name || 'Sabor y Tradición';
+    const logoUrl = tenant?.settings?.logo;
 
     const NavLink = ({ href, label, isMobile = false }: { href: string; label: string; isMobile?: boolean }) => {
         const isActive = pathname === href;
@@ -42,8 +47,8 @@ export function Header() {
         <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-md supports-[backdrop-filter]:bg-background/80 shadow-sm">
             <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
                 <Link href="/" className="flex items-center gap-3 transition-transform hover:scale-105">
-                    <Logo useCustomLogo={true} className="h-8 w-8 text-primary" />
-                    <span className="font-headline text-2xl font-bold">Sabor y Tradición</span>
+                    <Logo useCustomLogo={true} logoUrl={logoUrl} className="h-8 w-8 text-primary" />
+                    <span className="font-headline text-2xl font-bold">{restaurantName}</span>
                 </Link>
 
                 <nav className="hidden items-center gap-8 md:flex">
@@ -64,8 +69,8 @@ export function Header() {
                             <div className="flex h-full flex-col">
                                 <div className="flex h-20 items-center justify-between border-b px-6">
                                     <Link href="/" className="flex items-center gap-3" onClick={() => setSheetOpen(false)}>
-                                        <Logo useCustomLogo={true} />
-                                        <span className="font-headline text-2xl font-bold">Sabor y Tradición</span>
+                                        <Logo useCustomLogo={true} logoUrl={logoUrl} />
+                                        <span className="font-headline text-2xl font-bold">{restaurantName}</span>
                                     </Link>
                                     <Button variant="ghost" size="icon" onClick={() => setSheetOpen(false)}>
                                         <X className="h-6 w-6" />

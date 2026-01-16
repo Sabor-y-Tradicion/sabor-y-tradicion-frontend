@@ -49,11 +49,6 @@ export const dishSchema = z.object({
     .max(180, 'El tiempo no puede exceder 180 minutos')
     .optional(),
 
-  servings: z
-    .number()
-    .min(1, 'Debe ser al menos 1 porción')
-    .max(20, 'No puede exceder 20 porciones')
-    .optional(),
 
   allergens: z
     .array(z.string())
